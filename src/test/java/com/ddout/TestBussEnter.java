@@ -22,7 +22,7 @@ import net.sf.json.JSONObject;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration({ "classpath*:conf/spring*.xml" })
-public class TestViewController {
+public class TestBussEnter {
 
     @Autowired
     private WebApplicationContext wac;
@@ -35,31 +35,10 @@ public class TestViewController {
     }
 
     @Test
-    public void testAuth() throws Exception {
+    public void testList() throws Exception {
 	//
-	ResultActions ra = mockMvc.perform((post("/view/auth.do").characterEncoding("UTF-8")
-		.contentType(MediaType.APPLICATION_JSON).param("user", "ddout").param("pwd", "xxxx")))
-		.andExpect(status().isOk()).andDo(print());
-	JSONObject result = JSONObject.fromObject(ra.andReturn().getResponse().getContentAsString());
-	System.out.println(result);
-    }
-
-    @Test
-    public void testViewServerInfo() throws Exception {
-	//
-	ResultActions ra = mockMvc.perform(
-		(post("/view/viewServerInfo.do").characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON)))
-		.andExpect(status().isOk()).andDo(print());
-	JSONObject result = JSONObject.fromObject(ra.andReturn().getResponse().getContentAsString());
-	System.out.println(result);
-    }
-
-    @Test
-    public void testViewSeasonInfo() throws Exception {
-	//
-	ResultActions ra = mockMvc.perform(
-		(post("/view/viewSeasonInfo.do").characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON)
-			.param("region", "欧洲").param("matchName", "英格兰").param("leagueName", "英超")))
+	ResultActions ra = mockMvc.perform((post("/enter/list.do").characterEncoding("UTF-8")
+		.contentType(MediaType.APPLICATION_JSON).param("start", "0").param("limit", "1")))
 		.andExpect(status().isOk()).andDo(print());
 	JSONObject result = JSONObject.fromObject(ra.andReturn().getResponse().getContentAsString());
 	System.out.println(result);

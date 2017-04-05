@@ -102,7 +102,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="com.cdhy.fb.utils.interceptor.AuthInterceptor">
+			<bean class="com.ddout.fb.utils.interceptor.AuthInterceptor">
 				<property name="excludeNamespace">
 					<list>
 						<value>/pub/sys/</value>

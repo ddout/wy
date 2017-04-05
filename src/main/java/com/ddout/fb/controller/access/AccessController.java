@@ -1,5 +1,6 @@
 package com.ddout.fb.controller.access;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cdhy.commons.utils.exception.BizException;
 import com.cdhy.commons.utils.model.Result;
+import com.ddout.fb.service.access.IAccessService;
 import com.ddout.fb.utils.ContextHolderUtils;
 
 @Controller
@@ -23,7 +25,7 @@ public class AccessController {
     public static final String SESSION_KEY_OF_RAND_CODE = "randCode"; // todo
 
     @Autowired
-//    private IAccessService service;
+    private IAccessService service;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -42,7 +44,7 @@ public class AccessController {
 		obj.setResult(Result.RESULT_ERROR);
 		obj.setMsg("图片验证码错误");
 	    } else {
-		Map<String, Object> result = null;//service.login(parm);
+		Map<String, Object> result = new HashMap<String, Object>();//service.login(parm);
 		// put到session
 		ContextHolderUtils.getSession().setAttribute(AccessController.LOGIN_USER_KEY, result);
 		obj.setRows(result);
