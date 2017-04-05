@@ -100,6 +100,33 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 			<bean class="com.cdhy.commons.utils.interceprots.EncodingInterceptor"
 				p:encoding="UTF-8" />
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.cdhy.fb.utils.interceptor.AuthInterceptor">
+				<property name="excludeNamespace">
+					<list>
+						<value>/pub/sys/</value>
+					</list>
+				</property>
+				<property name="excludeLoginUrls">
+					<list>
+						<value>/access/getLoginUserInfo.do</value>
+						<value>/upload/archivesUpload.do</value>
+					</list>
+				</property>
+				<property name="excludeUrls">
+					<list>
+						<value>/access/login.do</value>
+						<value>/access/logout.do</value>
+					</list>
+				</property>
+				<property name="excludeKeys">
+					<list>
+						<value>stb_IPortalSite_login</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 

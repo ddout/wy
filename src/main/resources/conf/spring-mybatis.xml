@@ -110,7 +110,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<aop:config proxy-target-class="true">
 		<aop:pointcut id="transactionPointcut"
-			expression="execution(* com.ddout.fb.service.mysql.*.*impl.*.*(..))" />
+			expression="execution(* com.ddout.fb.service.*.*impl.*.*(..))" />
 		<aop:advisor pointcut-ref="transactionPointcut"
 			advice-ref="transactionAdvice" />
 	</aop:config>
