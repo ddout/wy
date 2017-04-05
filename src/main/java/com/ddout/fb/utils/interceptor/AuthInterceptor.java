@@ -84,64 +84,64 @@ public class AuthInterceptor implements HandlerInterceptor {
     @SuppressWarnings("unchecked")
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
-
-	String requestPath = getRequestPath(request);// 用户访问的资源地址
-	requestPath = requestPath.replaceFirst("/wy/", "/");
-	logger.debug("requestPath=" + requestPath);
-	if (excludeUrls.contains(requestPath)) {
-	    logger.debug("excludeUrls=true, access!" + requestPath);
-	    return true;
-	}
-	for (String string : excludeNamespace) {
-	    if (requestPath.startsWith(string)) {
-		logger.debug("excludeNamespace=true, access!" + requestPath);
-		return true;
-	    }
-	}
-	//
-	String serviceKey = request.getParameter("key");
-	//
-	if (null != excludeKeys && excludeKeys.contains(serviceKey)) {
-	    logger.debug("excludeKeys=true, access!" + requestPath + ";serviceKey=" + serviceKey);
-	    return true;
-	}
-	//
-	Object loginObj = ContextHolderUtils.getSession().getAttribute(AccessController.LOGIN_USER_KEY);
-	logger.debug("loginObj=" + loginObj);
-	if (null == loginObj) {
-	    logger.debug("loginObj is null response600!" + requestPath);
-	    response600(request, response);
-	    return false;
-	}
-	Map<String, Object> loginMap = (Map<String, Object>) loginObj;
-	Object user = loginMap.get("user");
-	if (null == user || null == ((Map<String, Object>) user).get("ID")
-		|| "".equals(((Map<String, Object>) user).get("ID").toString().trim())) {
-	    logger.debug("loginObj not null but user is null response401!" + requestPath);
-	    response401(request, response);
-	    return false;
-	}
-	for (String string : excludeLoginUrls) {
-	    if (requestPath.startsWith(string)) {
-		if ("/buss/exec.do".equals(requestPath)) {
-		    Set<String> rolePrivilegeSet = (Set<String>) loginMap.get("rolePrivilegeSet");
-		    if (rolePrivilegeSet.contains(serviceKey)) {
-			logger.debug("rolePrivilegeSet=true, access!" + requestPath + " service_key=" + serviceKey);
-			return true;
-		    } else {
-			logger.debug("rolePrivilegeSet not found, response401!" + requestPath + " service_key="
-				+ serviceKey);
-			response401(request, response);
-			return false;
-		    }
-		} else {
-		    logger.debug("excludeNamespace=true, access!" + requestPath);
-		    return true;
-		}
-
-	    }
-	}
-	return false;
+	return true;
+//	String requestPath = getRequestPath(request);// 用户访问的资源地址
+//	requestPath = requestPath.replaceFirst("/wy/", "/");
+//	logger.debug("requestPath=" + requestPath);
+//	if (excludeUrls.contains(requestPath)) {
+//	    logger.debug("excludeUrls=true, access!" + requestPath);
+//	    return true;
+//	}
+//	for (String string : excludeNamespace) {
+//	    if (requestPath.startsWith(string)) {
+//		logger.debug("excludeNamespace=true, access!" + requestPath);
+//		return true;
+//	    }
+//	}
+//	//
+//	String serviceKey = request.getParameter("key");
+//	//
+//	if (null != excludeKeys && excludeKeys.contains(serviceKey)) {
+//	    logger.debug("excludeKeys=true, access!" + requestPath + ";serviceKey=" + serviceKey);
+//	    return true;
+//	}
+//	//
+//	Object loginObj = ContextHolderUtils.getSession().getAttribute(AccessController.LOGIN_USER_KEY);
+//	logger.debug("loginObj=" + loginObj);
+//	if (null == loginObj) {
+//	    logger.debug("loginObj is null response600!" + requestPath);
+//	    response600(request, response);
+//	    return false;
+//	}
+//	Map<String, Object> loginMap = (Map<String, Object>) loginObj;
+//	Object user = loginMap.get("user");
+//	if (null == user || null == ((Map<String, Object>) user).get("ID")
+//		|| "".equals(((Map<String, Object>) user).get("ID").toString().trim())) {
+//	    logger.debug("loginObj not null but user is null response401!" + requestPath);
+//	    response401(request, response);
+//	    return false;
+//	}
+//	for (String string : excludeLoginUrls) {
+//	    if (requestPath.startsWith(string)) {
+//		if ("/buss/exec.do".equals(requestPath)) {
+//		    Set<String> rolePrivilegeSet = (Set<String>) loginMap.get("rolePrivilegeSet");
+//		    if (rolePrivilegeSet.contains(serviceKey)) {
+//			logger.debug("rolePrivilegeSet=true, access!" + requestPath + " service_key=" + serviceKey);
+//			return true;
+//		    } else {
+//			logger.debug("rolePrivilegeSet not found, response401!" + requestPath + " service_key="
+//				+ serviceKey);
+//			response401(request, response);
+//			return false;
+//		    }
+//		} else {
+//		    logger.debug("excludeNamespace=true, access!" + requestPath);
+//		    return true;
+//		}
+//
+//	    }
+//	}
+//	return false;
     }
 
     private static final void response600(HttpServletRequest request, HttpServletResponse response) {
