@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cdhy.commons.utils.ParamsUtil;
+import com.cdhy.commons.utils.exception.BizException;
 import com.cdhy.commons.utils.model.Page;
 import com.ddout.fb.dao.buss.IEnterMapper;
 import com.ddout.fb.service.buss.IEnterService;
@@ -32,6 +33,36 @@ public class EnterServiceImpl implements IEnterService {
 	    page.setData(list);
 	}
 	return page;
+    }
+
+    @Override
+    public void add(Map<String, Object> parm) {
+	Map<String, Object> item = mapper.queryItem(parm);
+	if (null != item && item.size() > 0) {
+	    throw new BizException("[" + ParamsUtil.getString4Map(parm, "name") + "]重名!");
+	}
+
+	if ("".equals(ParamsUtil.getString4Map(parm, "pid"))) {
+	    parm.remove("pid");
+	}
+	mapper.add(parm);
+    }
+
+    @Override
+    public void update(Map<String, Object> parm) {
+	Map<String, Object> item = mapper.queryItem(parm);
+	if (null != item && item.size() > 0) {
+	    throw new BizException("[" + ParamsUtil.getString4Map(parm, "name") + "]重名!");
+	}
+	if ("".equals(ParamsUtil.getString4Map(parm, "pid"))) {
+	    parm.remove("pid");
+	}
+	mapper.update(parm);
+    }
+
+    @Override
+    public void del(Map<String, Object> parm) {
+	mapper.del(parm);
     }
 
 }

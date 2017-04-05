@@ -9,4 +9,12 @@ public interface IEnterMapper {
 
     List<Map<String, Object>> queryItemsList(Map<String, Object> parm);
 
+    void add(Map<String, Object> parm);
+
+    Map<String, Object> queryItem(Map<String, Object> parm);
+
+    void update(Map<String, Object> parm);
+
+    void del(Map<String, Object> parm);
+
 }

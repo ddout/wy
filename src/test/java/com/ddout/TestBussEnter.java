@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.context.WebApplicationContext;
 
 import net.sf.json.JSONObject;
@@ -37,9 +38,43 @@ public class TestBussEnter {
     @Test
     public void testList() throws Exception {
 	//
-	ResultActions ra = mockMvc.perform((post("/enter/list.do").characterEncoding("UTF-8")
-		.contentType(MediaType.APPLICATION_JSON).param("start", "0").param("limit", "1")))
-		.andExpect(status().isOk()).andDo(print());
+	MockHttpServletRequestBuilder mock = post("/enter/list.do").characterEncoding("UTF-8")
+		.contentType(MediaType.APPLICATION_JSON);
+	mock.param("start", "1").param("limit", "10");
+	ResultActions ra = mockMvc.perform(mock).andExpect(status().isOk()).andDo(print());
+	JSONObject result = JSONObject.fromObject(ra.andReturn().getResponse().getContentAsString());
+	System.out.println(result);
+    }
+
+    @Test
+    public void testAdd() throws Exception {
+	//
+	MockHttpServletRequestBuilder mock = post("/enter/add.do").characterEncoding("UTF-8")
+		.contentType(MediaType.APPLICATION_JSON);
+	mock.param("name", "测试2").param("orderby", "1").param("pid", "").param("note", "note");
+	ResultActions ra = mockMvc.perform(mock).andExpect(status().isOk()).andDo(print());
+	JSONObject result = JSONObject.fromObject(ra.andReturn().getResponse().getContentAsString());
+	System.out.println(result);
+    }
+
+    @Test
+    public void testDel() throws Exception {
+	//
+	MockHttpServletRequestBuilder mock = post("/enter/del.do").characterEncoding("UTF-8")
+		.contentType(MediaType.APPLICATION_JSON);
+	mock.param("id", "2");
+	ResultActions ra = mockMvc.perform(mock).andExpect(status().isOk()).andDo(print());
+	JSONObject result = JSONObject.fromObject(ra.andReturn().getResponse().getContentAsString());
+	System.out.println(result);
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+	//
+	MockHttpServletRequestBuilder mock = post("/enter/update.do").characterEncoding("UTF-8")
+		.contentType(MediaType.APPLICATION_JSON);
+	mock.param("id", "2").param("name", "测试updte").param("orderby", "2").param("pid", "1").param("note", "note22");
+	ResultActions ra = mockMvc.perform(mock).andExpect(status().isOk()).andDo(print());
 	JSONObject result = JSONObject.fromObject(ra.andReturn().getResponse().getContentAsString());
 	System.out.println(result);
     }

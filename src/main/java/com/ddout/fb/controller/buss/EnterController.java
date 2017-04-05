@@ -40,4 +40,58 @@ public class EnterController {
 	}
 	return obj;
     }
+
+    @RequestMapping("/add")
+    @ResponseBody
+    public Object add(@RequestParam Map<String, Object> parm) {
+	Result obj = new Result();
+	try {
+	    service.add(parm);
+	} catch (BizException e) {
+	    log.debug("操作失败", e);
+	    obj.setResult(Result.RESULT_ERROR);
+	    obj.setMsg(e.getMessage());
+	} catch (Exception e) {
+	    log.error("操作失败", e);
+	    obj.setResult(Result.RESULT_ERROR);
+	    obj.setMsg(Result.RESULT_ERROR_MSG);
+	}
+	return obj;
+    }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public Object update(@RequestParam Map<String, Object> parm) {
+	Result obj = new Result();
+	try {
+	    service.update(parm);
+	} catch (BizException e) {
+	    log.debug("操作失败", e);
+	    obj.setResult(Result.RESULT_ERROR);
+	    obj.setMsg(e.getMessage());
+	} catch (Exception e) {
+	    log.error("操作失败", e);
+	    obj.setResult(Result.RESULT_ERROR);
+	    obj.setMsg(Result.RESULT_ERROR_MSG);
+	}
+	return obj;
+    }
+
+    @RequestMapping("/del")
+    @ResponseBody
+    public Object del(@RequestParam Map<String, Object> parm) {
+	Result obj = new Result();
+	try {
+	    service.del(parm);
+	} catch (BizException e) {
+	    log.debug("操作失败", e);
+	    obj.setResult(Result.RESULT_ERROR);
+	    obj.setMsg(e.getMessage());
+	} catch (Exception e) {
+	    log.error("操作失败", e);
+	    obj.setResult(Result.RESULT_ERROR);
+	    obj.setMsg(Result.RESULT_ERROR_MSG);
+	}
+	return obj;
+    }
 }

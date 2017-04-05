@@ -20,4 +20,39 @@
 		order by orderby asc
 		limit #{start},#{end}
 	</select>
+
+	<insert id="add" parameterType="map" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into t_enter
+		(name,orderby,pid,note)
+		values
+		(
+		#{name,jdbcType=VARCHAR},
+		#{orderby,jdbcType=NUMERIC},
+		#{pid,jdbcType=NUMERIC},
+		#{note,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<select id="queryItem" parameterType="map" resultType="map">
+		select *
+		from t_enter
+		where name=#{name}
+		<if test="id != null and id != ''">
+			and id != #{id}
+		</if>
+		limit 0,1
+	</select>
+	
+	<delete id="del" parameterType="map">
+		delete from t_enter where id=#{id}
+	</delete>
+	<update id="update">
+		update t_enter
+		set name=#{name,jdbcType=VARCHAR},
+			orderby=#{orderby,jdbcType=NUMERIC},
+			pid=#{pid,jdbcType=NUMERIC},
+			note=#{note,jdbcType=VARCHAR}
+		where id=#{id}
+	</update>
 </mapper>
