@@ -1,42 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ddout.fb.dao.buss.IEnterMapper">
+<mapper namespace="com.ddout.fb.dao.buss.IWarehouseMapper">
 
 	<sql id="listWhere">
 		<if test="name != null and name != ''">
 			and name like CONCAT('%',#{name},'%')
 		</if>
+		<if test="heads != null and heads != ''">
+			and heads = #{heads}
+		</if>
+		<if test="heads_phone != null and heads_phone != ''">
+			and heads_phone = #{heads_phone}
+		</if>
 	</sql>
 
 	<select id="queryItemsListCount" parameterType="map" resultType="int">
-		select count(1) from t_enter
+		select count(1) from t_Warehouse
 		where 1=1
 		<include refid="listWhere"></include>
 	</select>
 	<select id="queryItemsList" parameterType="map" resultType="map">
-		select * from t_enter
+		select * from t_Warehouse
 		where 1=1
 		<include refid="listWhere"></include>
-		order by orderby asc
+		order by id asc
 		limit #{start},#{end}
 	</select>
 
 	<insert id="add" parameterType="map" useGeneratedKeys="true"
 		keyProperty="id">
-		insert into t_enter
-		(name,orderby,pid,note)
+		insert into t_Warehouse
+		(name,enterid,address,heads,heads_phone,note)
 		values
 		(
 		#{name,jdbcType=VARCHAR},
-		#{orderby,jdbcType=NUMERIC},
-		#{pid,jdbcType=NUMERIC},
+		#{enterid,jdbcType=NUMERIC},
+		#{address,jdbcType=VARCHAR},
+		#{heads,jdbcType=VARCHAR},
+		#{heads_phone,jdbcType=VARCHAR},
 		#{note,jdbcType=VARCHAR}
 		)
 	</insert>
 
 	<select id="queryItem" parameterType="map" resultType="map">
 		select *
-		from t_enter
+		from t_Warehouse
 		where name=#{name}
 		<if test="id != null and id != ''">
 			and id != #{id}
@@ -45,13 +53,15 @@
 	</select>
 	
 	<delete id="del" parameterType="map">
-		delete from t_enter where id=#{id}
+		delete from t_Warehouse where id=#{id}
 	</delete>
 	<update id="update">
-		update t_enter
+		update t_Warehouse
 		set name=#{name,jdbcType=VARCHAR},
-			orderby=#{orderby,jdbcType=NUMERIC},
-			pid=#{pid,jdbcType=NUMERIC},
+			enterid=#{enterid,jdbcType=NUMERIC},
+			address=#{address,jdbcType=VARCHAR},
+			heads=#{heads,jdbcType=VARCHAR},
+			heads_phone=#{heads_phone,jdbcType=VARCHAR},
 			note=#{note,jdbcType=VARCHAR}
 		where id=#{id}
 	</update>

@@ -4,7 +4,7 @@
 
 	<sql id="listWhere">
 		<if test="name != null and name != ''">
-			and name like '%#{name}%'
+			and name like CONCAT('%',#{name},'%')
 		</if>
 	</sql>
 
