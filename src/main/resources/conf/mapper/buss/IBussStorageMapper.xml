@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ddout.fb.dao.buss.IBussStorageMapper">
+
+	<sql id="listWhere">
+		<if test="houseid != null and houseid != ''">
+			and houseid=#{houseid}
+		</if>
+		<if test="begin_time != null and begin_time != ''">
+			and modify_time &gt;= STR_TO_DATE(#{begin_time},'%Y-%m-%d')
+		</if>
+		<if test="end_time != null and end_time != ''">
+			and modify_time &lt;= STR_TO_DATE(#{end_time},'%Y-%m-%d')
+		</if>
+		
+	</sql>
+
+	<select id="queryItemsListCount" parameterType="map" resultType="int">
+		select count(1) from t_b_storage
+		where 1=1
+		<include refid="listWhere"></include>
+	</select>
+	<select id="queryItemsList" parameterType="map" resultType="map">
+		select 
+			id,DATE_FORMAT(createtime,'%Y-%m-%d %T') createtime,
+			houseid,DATE_FORMAT(modify_time,'%Y-%m-%d') modify_time,
+			note,modify_userid,modify_username
+		from t_b_storage
+		where 1=1
+		<include refid="listWhere"></include>
+		order by houseid asc,modify_time desc
+		limit #{start},#{end}
+	</select>
+
+	<insert id="add" parameterType="map" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into t_b_storage
+		(createtime,houseid,modify_time,note,modify_userid,modify_username)
+		values
+		(
+		now(),
+		#{houseid,jdbcType=NUMERIC},
+		STR_TO_DATE(#{modify_time,jdbcType=VARCHAR},'%Y-%m-%d'),
+		#{note,jdbcType=VARCHAR},
+		#{modify_userid,jdbcType=NUMERIC},
+		#{modify_username,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="addItems" parameterType="map" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into t_b_storage_items
+		(
+		storageid,supplierid,itemid,
+		item_num,item_num2,item_weight,
+		item_dj,item_je,item_note
+		)
+		values
+		(
+		#{storageid,jdbcType=NUMERIC},#{supplierid,jdbcType=NUMERIC},#{itemid,jdbcType=NUMERIC},
+		#{item_num,jdbcType=NUMERIC},#{item_num2,jdbcType=NUMERIC},#{item_weight,jdbcType=NUMERIC},
+		#{item_dj,jdbcType=NUMERIC},#{item_je,jdbcType=NUMERIC},#{item_note,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<delete id="delItems" parameterType="map">
+		delete from t_b_storage_items
+		where storageid=#{storageid}
+	</delete>
+
+	<select id="queryItem" parameterType="map" resultType="map">
+		select 
+			id,DATE_FORMAT(createtime,'%Y-%m-%d %T') createtime,
+			houseid,DATE_FORMAT(modify_time,'%Y-%m-%d %T') modify_time,
+			note,modify_userid,modify_username
+		from t_b_storage
+		where name=#{name}
+		<if test="id != null and id != ''">
+			and id != #{id}
+		</if>
+		limit 0,1
+	</select>
+	
+	<delete id="del" parameterType="map">
+		delete from t_b_storage where id=#{id}
+	</delete>
+	<update id="update">
+		update t_b_storage
+		set houseid=#{houseid,jdbcType=NUMERIC},
+			note=#{note,jdbcType=VARCHAR},
+			modify_time=STR_TO_DATE(#{modify_time,jdbcType=VARCHAR},'%Y-%m-%d'),
+			modify_userid=#{modify_userid,jdbcType=NUMERIC},
+			modify_username=#{modify_username,jdbcType=VARCHAR}
+		where id=#{id}
+	</update>
+</mapper>
