@@ -122,7 +122,7 @@
 
 	<servlet>
 		<servlet-name>RandCodeImage</servlet-name>
-		<servlet-class>com.cdhy.fb.utils.servlet.RandCodeImageServlet</servlet-class>
+		<servlet-class>com.ddout.fb.utils.servlet.RandCodeImageServlet</servlet-class>
 		<init-param>
 			<description>验证码类型</description>
 			<param-name>RandCodeType</param-name>

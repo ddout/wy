@@ -1,5 +1,13 @@
-body{padding-bottom:80px;}
-.mgtop_20{margin-top:10px}
-.list-group-item{margin-top:10px;}
-.heightText{color: #ef0707;}
-.heightBg{background-color: #ef0707;}
+body {
+	padding-bottom: 80px;
+}
+
+#app-main {
+	padding-top: 60px;
+}
+
+#main-panel {
+	border: 1px solid #efefef;
+	background-color:#f3f3f3;
+	min-height: 400px;
+}
