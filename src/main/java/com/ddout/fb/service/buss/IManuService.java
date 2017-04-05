@@ -4,11 +4,11 @@ import java.util.Map;
 
 import com.cdhy.commons.utils.model.Page;
 /**
- * 供应商
+ * 生产厂家
  * @author ddout
  *
  */
-public interface ISupplierService {
+public interface IManuService {
 
     Page list(Map<String, Object> parm);
 

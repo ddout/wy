@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ddout.fb.dao.buss.IManuMapper">
+
+	<sql id="listWhere">
+		<if test="name != null and name != ''">
+			and name like '%#{name}%'
+		</if>
+	</sql>
+
+	<select id="queryItemsListCount" parameterType="map" resultType="int">
+		select count(1) from t_Manu
+		where 1=1
+		<include refid="listWhere"></include>
+	</select>
+	<select id="queryItemsList" parameterType="map" resultType="map">
+		select * from t_Manu
+		where 1=1
+		<include refid="listWhere"></include>
+		order by id asc
+		limit #{start},#{end}
+	</select>
+
+	<insert id="add" parameterType="map" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into t_Manu
+		(name,note)
+		values
+		(
+		#{name,jdbcType=VARCHAR},
+		#{note,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<select id="queryItem" parameterType="map" resultType="map">
+		select *
+		from t_Manu
+		where name=#{name}
+		<if test="id != null and id != ''">
+			and id != #{id}
+		</if>
+		limit 0,1
+	</select>
+	
+	<delete id="del" parameterType="map">
+		delete from t_Manu where id=#{id}
+	</delete>
+	<update id="update">
+		update t_Manu
+		set name=#{name,jdbcType=VARCHAR},
+			note=#{note,jdbcType=VARCHAR}
+		where id=#{id}
+	</update>
+</mapper>
