@@ -2,6 +2,7 @@ var app = new Vue({
 		el : '#app-main',
 		data : {
 			sysMsg:'',
+			mainView:'Enter',
 			userInfo : {
 				user : '',
 				pwd : '',
@@ -93,6 +94,9 @@ var app = new Vue({
 					}
 				});
 			},
+			//
+			//
+			//
 			post:function(cfg){
 				var _this = this;
 				var config = {
