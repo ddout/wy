@@ -23,7 +23,7 @@ import net.sf.json.JSONObject;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration({ "classpath*:conf/spring*.xml" })
-public class TestBussEnter {
+public class TestEnter {
 
     @Autowired
     private WebApplicationContext wac;
