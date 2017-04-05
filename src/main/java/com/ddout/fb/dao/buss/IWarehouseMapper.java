@@ -17,4 +17,5 @@ public interface IWarehouseMapper {
 
     void del(Map<String, Object> parm);
 
+    Map<String, Object> getById(Map<String, Object> parm);
 }

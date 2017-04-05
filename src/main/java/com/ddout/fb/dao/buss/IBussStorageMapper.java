@@ -20,5 +20,5 @@ public interface IBussStorageMapper {
     void addItems(Map<String, Object> parm);
 
     void delItems(Map<String, Object> map);
-
+    Map<String, Object> getById(Map<String, Object> parm);
 }

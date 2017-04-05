@@ -65,4 +65,10 @@
 			model=#{model,jdbcType=VARCHAR}
 		where id=#{id}
 	</update>
+	
+	<select id="getById" parameterType="map" resultType="map">
+		select *
+		from t_item
+		where id=#{id}
+	</select>	
 </mapper>

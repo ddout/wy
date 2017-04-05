@@ -65,4 +65,9 @@ public class EnterServiceImpl implements IEnterService {
 	mapper.del(parm);
     }
 
+    @Override
+    public Map<String, Object> getById(Map<String, Object> parm) {
+	return mapper.getById(parm);
+    }
+
 }

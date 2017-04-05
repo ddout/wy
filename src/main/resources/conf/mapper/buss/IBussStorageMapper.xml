@@ -93,4 +93,13 @@
 			modify_username=#{modify_username,jdbcType=VARCHAR}
 		where id=#{id}
 	</update>
+	
+	<select id="getById" parameterType="map" resultType="map">
+		select 
+			id,DATE_FORMAT(createtime,'%Y-%m-%d %T') createtime,
+			houseid,DATE_FORMAT(modify_time,'%Y-%m-%d') modify_time,
+			note,modify_userid,modify_username
+		from t_b_storage
+		where id=#{id}
+	</select>
 </mapper>

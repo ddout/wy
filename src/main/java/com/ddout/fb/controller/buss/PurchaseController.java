@@ -98,4 +98,22 @@ public class PurchaseController {
 	}
 	return obj;
     }
+    @RequestMapping("/getById")
+    @ResponseBody
+    public Object getById(@RequestParam Map<String, Object> parm) {
+	Result obj = new Result();
+	try {
+	    Map<String,Object> result = service.getById(parm);
+	    obj.setRows(result);
+	} catch (BizException e) {
+	    log.debug("操作失败", e);
+	    obj.setResult(Result.RESULT_ERROR);
+	    obj.setMsg(e.getMessage());
+	} catch (Exception e) {
+	    log.error("操作失败", e);
+	    obj.setResult(Result.RESULT_ERROR);
+	    obj.setMsg(Result.RESULT_ERROR_MSG);
+	}
+	return obj;
+    }
 }

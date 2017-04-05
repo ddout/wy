@@ -57,5 +57,8 @@ public class WarehouseServiceImpl implements IWarehouseService {
     public void del(Map<String, Object> parm) {
 	mapper.del(parm);
     }
-
+    @Override
+    public Map<String, Object> getById(Map<String, Object> parm) {
+	return mapper.getById(parm);
+    }
 }

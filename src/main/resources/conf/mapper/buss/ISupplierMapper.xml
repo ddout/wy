@@ -51,4 +51,10 @@
 			note=#{note,jdbcType=VARCHAR}
 		where id=#{id}
 	</update>
+	
+	<select id="getById" parameterType="map" resultType="map">
+		select *
+		from t_Supplier
+		where id=#{id}
+	</select>	
 </mapper>
