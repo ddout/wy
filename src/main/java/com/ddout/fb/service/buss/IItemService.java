@@ -4,11 +4,11 @@ import java.util.Map;
 
 import com.cdhy.commons.utils.model.Page;
 /**
- * 单位
+ * item
  * @author ddout
  *
  */
-public interface IEnterService {
+public interface IItemService {
 
     Page list(Map<String, Object> parm);
 

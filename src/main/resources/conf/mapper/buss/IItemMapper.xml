@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ddout.fb.dao.buss.IItemMapper">
+
+	<sql id="listWhere">
+		<if test="name != null and name != ''">
+			and name like CONCAT('%',#{name},'%')
+		</if>
+		
+		<if test="manuid != null and manuid != ''">
+			and manuid =#{manuid}
+		</if>
+		
+		<if test="model != null and model != ''">
+			and model like CONCAT('%',#{model},'%')
+		</if>
+	</sql>
+
+	<select id="queryItemsListCount" parameterType="map" resultType="int">
+		select count(1) from t_item
+		where 1=1
+		<include refid="listWhere"></include>
+	</select>
+	<select id="queryItemsList" parameterType="map" resultType="map">
+		select * from t_item
+		where 1=1
+		<include refid="listWhere"></include>
+		order by manuid asc,model asc
+		limit #{start},#{end}
+	</select>
+
+	<insert id="add" parameterType="map" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into t_item
+		(name,manuid,model)
+		values
+		(
+		#{name,jdbcType=VARCHAR},
+		#{manuid,jdbcType=NUMERIC},
+		#{model,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<select id="queryItem" parameterType="map" resultType="map">
+		select *
+		from t_item
+		where name=#{name}
+		  and model=#{model}
+	    <if test="manuid != null and manuid != ''">
+			and manuid=#{manuid}
+		</if>
+		<if test="id != null and id != ''">
+			and id != #{id}
+		</if>
+		limit 0,1
+	</select>
+	
+	<delete id="del" parameterType="map">
+		delete from t_item where id=#{id}
+	</delete>
+	<update id="update">
+		update t_item
+		set name=#{name,jdbcType=VARCHAR},
+			manuid=#{manuid,jdbcType=NUMERIC},
+			model=#{model,jdbcType=VARCHAR}
+		where id=#{id}
+	</update>
+</mapper>
