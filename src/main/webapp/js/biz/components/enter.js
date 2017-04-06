@@ -23,6 +23,12 @@ Vue.component('comp-enter', {
 	},
 	methods: {
 		fetchData: function(){
+		},
+		next:function(){
+			console.log('parent --- test');
+		},
+		prev:function(){
+			console.log('parent --- test111s');
 		}
 	},
 	template:''
@@ -57,6 +63,7 @@ Vue.component('comp-enter', {
 	+'				</tr>'
 	+'			</tbody>'
 	+'		</table>'
+	+'		<comp-dd-pagination v-on:next="next" v-on:prev="prev"></comp-dd-pagination>'
 	+'  </div>		'
 	+'</div>'
 
