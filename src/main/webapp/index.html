@@ -3,133 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>fb-analysis</title>
+<title>wy</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/index.css"/>
 </head>
 <body>
 	<div id="app-main" class="container-fluid">
-		<nav class="navbar-static-top navbar-default navbar-fixed-top" role="navigation">
-			<div class="container-fluid">
-				<div class="navbar-header">
-			      <a class="navbar-brand" >
-			        <img alt="logo" src="images/logo.png">
-			      </a>
-			    </div>
-			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<li class="nomargin">
-							<a  class="bgbule imp" role="button">入库</a>
-						</li>
-						<li class="nomargin">
-							<a  class="bgbule imp" role="button">出库</a>
-						</li>
-						<li class="dropdown">
-				          <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系统设置 <span class="caret"></span></a>
-				          <ul class="dropdown-menu">
-				            <li><a >单位管理</a></li>
-				            <li><a >仓库管理</a></li>
-				            <li role="separator" class="divider"></li>
-				            <li><a >供应商</a></li>
-				            <li><a >购货单位</a></li>
-							<li role="separator" class="divider"></li>
-				            <li><a >物料生产厂家</a></li>
-				            <li><a >物料</a></li>
-				          </ul>
-				        </li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-				        <li>
-				        	<a v-on:click="authUserShow" v-if="userInfo.auth==false">登录</a>
-				        	<a v-if="userInfo.auth==true">{{userInfo.user}}</a>
-				        </li>
-			        </ul>
-				</div>
-			</div>
-		</nav>	
-	
-	
-		
 		<!--  -->
-		<div class="modal fade" tabindex="-1" role="dialog" id="auth-Modal">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title">Auth</h4>
-		      </div>
-		      <div class="modal-body">
-	      			<div class="form-group">
-	      				<label for="userInfo-user">Name</label>
-					    <input class="form-control" id="userInfo-user" v-model="userInfo.user" placeholder="your Username"/>
-					</div>
-					<div class="form-group">
-						<label for="userInfo-pwd">Password</label>
-					    <input type="password" class="form-control" id="userInfo-pwd" v-model="userInfo.pwd" placeholder="your Password"/>
-					</div>
-					<div class="form-group">
-				     	<label for="userInfo-imgcode">Imgcode</label>
-				    	<input class="form-control" id="userInfo-imgcode" v-model="userInfo.imgcode" placeholder="your Img Code"/>
-				    	<img src="randCodeImage" v-on:click="flushImgcode">
-					</div>
-		      </div>
-		      <div class="modal-footer">
-		      	<span style="color:red;margin-right:30px;">{{userInfo.authMsg}}</span>
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary" v-on:click="authUser">Auth DO</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
+		<comp-nav></comp-nav>
 		<!--  -->
-		
 		<div id="main-error" class="container-fluid text-center">
 			<p style="font-size:14px;">{{sysMsg}}</p>
 		</div>
 		
-		<div class="container-fluid main-panel" v-if="mainView=='Enter'">
-			<h4>单位信息</h4>
-			<div class="col-md-12">
-				<form class="form-inline">
-					  <div class="form-group">
-					    <label for="exampleInputName2">Name</label>
-					    <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-					  </div>
-					  <div class="form-group">
-					    <label for="exampleInputEmail2">Email</label>
-					    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
-					  </div>
-					  <button type="submit" class="btn btn-primary btn-sm">搜索</button>
-				</form>
-			</div>
-			<div class="col-md-12 data-panel">
-				<div class="btn-group btn-group-sm" role="group" aria-label="...">
-				  <a type="button" class="btn btn-success">Left</a>
-				  <a type="button" class="btn btn-success">Middle</a>
-				  <a type="button" class="btn btn-success">Right</a>
-				</div>
-				<table class="table table-bordered">
-					<tr>
-						<th class="text-center">name</th>
-						<th class="text-center">ip</th>
-						<th class="text-center">note</th>
-						<th class="text-center">lasttime</th>
-					</tr>
-				</table>
-			</div>
+		<!--  -->
+		<div class="container-fluid main-panel">
+			<router-view></router-view>
 		</div>
-		
-		
 		
 	<!-- app end -->		
 	</div>
-
-
-
-
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/vue.js"></script>
-	<script  src="js/index.js"></script>
+	<!--  -->
+	<script src="js/vue/vue.js" ></script>
+	<script src="js/vue/vue-router.js" ></script>
+	<script src="js/jquery/jquery.min.js" ></script>
+	<script src="js/bootstrap/bootstrap.min.js" ></script>
+	<script data-main="js/biz/main.js" src="js/require.js"></script>
+	<!--  -->
 </body>
 </html>

@@ -1,15 +1,9 @@
-var app = new Vue({
+const app = new Vue({
 		el : '#app-main',
+		router: router,
 		data : {
 			sysMsg:'',
-			mainView:'Enter',
-			userInfo : {
-				user : '',
-				pwd : '',
-				imgcode : '',
-				auth : false,
-				authMsg : ''
-			},
+			sysLoading:false,
 			Enter:{
 				//单位
 				id:'',
@@ -44,13 +38,6 @@ var app = new Vue({
 				note:'',
 				objs:[]
 			},
-			Manu:{
-				//物料生产厂家
-				id:'',
-				name:'',
-				note:'',
-				objs:[]
-			},
 			Item:{
 				//物料
 				id:'',
@@ -61,41 +48,6 @@ var app = new Vue({
 			}
 		},
 		methods : {
-			authUserShow : function() {
-				$('#auth-Modal').modal('show');
-				this.userInfo.authMsg = '';
-			},
-			flushImgcode :function(event){
-				$(event.target).attr('src','randCodeImage?t='+new Date().getTime());
-			},
-			authUser:function(event){
-				var _this = this;
-				var data = {
-						user:_this.userInfo.user,
-						pwd:_this.userInfo.pwd,
-						randCode:_this.userInfo.imgcode
-				};
-				this.post({
-					url : 'access/login.do',
-					data : data,
-					lock:function(){
-						$(event.target).button('loading');
-					},
-					unlock:function(){
-						$(event.target).button('reset');
-					},
-					success:function(res){
-						_this.userInfo.auth = true;
-						_this.userInfo.pwd = '';
-						$('#auth-Modal').modal('hide');
-					},
-					error:function(res){
-						_this.userInfo.authMsg = res;
-					}
-				});
-			},
-			//
-			//
 			//
 			post:function(cfg){
 				var _this = this;
@@ -144,4 +96,7 @@ var app = new Vue({
 			}
 		}
 	});
+	
+
+
 
