@@ -8,7 +8,7 @@ Vue.component('comp-enter', {
 				name:'',
 				//
 				start:1,
-				limit:10,
+				limit:3,
 				rowsCount:0,
 				datas:[]
 			},
@@ -25,10 +25,12 @@ Vue.component('comp-enter', {
 	},
 	methods: {
 		next:function(){
-			console.log('parent --- test');
+			this.search.start = this.search.start+1;
+			this.loadList();
 		},
 		prev:function(){
-			console.log('parent --- test111s');
+			this.search.start = this.search.start-1;
+			this.loadList();
 		},
 		loadList:function(){
 			var _this = this;
@@ -41,7 +43,6 @@ Vue.component('comp-enter', {
 				url : 'enter/list.do',
 				data : data,
 				success:function(res){
-					console.log(res)
 					_this.search.rowsCount = res['rowsCount'];
 					_this.search.datas = res['data'];
 				}
