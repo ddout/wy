@@ -2,35 +2,39 @@
  * 分页
  */
 Vue.component('comp-dd-pagination', {
-	data: function(){
-		return {
-			page:1,
-			pageSize:1
-		};
-	},
-	watch:{
-		'$route': 'fetchData'
-	},
-	created: function() {
-	    this.fetchData()
+	props: ['parmas'],
+	computed: {
+		getRowsCount:function(){
+			return this.parmas.rowsCount;
+		},
+		getPage:function(){
+			return this.parmas.start;
+		},
+		getPageSize:function(){
+			var limit = this.parmas.limit;
+			var rowsCount = this.parmas.rowsCount;
+			if(rowsCount == 0){
+				return 1;
+			} else if(rowsCount/limit <= 1){
+				return 1;
+			} else if(rowsCount%limit == 0){
+				return parseInt(rowsCount/limit,10);
+			} else {
+				return parseInt(rowsCount/limit,10)+1;
+			}
+		}
 	},
 	methods: {
-		fetchData: function(){
-			this.page = 1;
-			this.pageSize = 1;
-		},
 		prev:function(){
-			if(this.page <= 1){
+			if(this.getPage <= 1){
 				return;
 			}
-			this.page = this.page -1;
 			this.$emit('prev')
 		},
 		next:function(){
-			if(this.page >= this.pageSize){
+			if(this.getPage >= this.getPageSize){
 				return;
 			}
-			this.page = this.page + 1;
 			this.$emit('next')
 		}
 	},
@@ -42,7 +46,8 @@ Vue.component('comp-dd-pagination', {
 		        <span aria-hidden="true">&laquo;</span>\
 		      </a>\
 		    </li>\
-		    <li><a>{{page}}/{{pageSize}}</a></li>\
+			<li><a>共{{getRowsCount}}条</a></li>\
+		    <li><a>第{{getPage}}/{{getPageSize}}页</a></li>\
 		    <li>\
 		      <a aria-label="Next" v-on:click="next">\
 		        <span aria-hidden="true">&raquo;</span>\
