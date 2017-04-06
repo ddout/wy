@@ -1,13 +1,15 @@
 /**
- * 物料生产厂家
+ * 物料
  */
-Vue.component('comp-manu', {
+Vue.component('comp-item', {
 	data: function(){
 		return {
-			Manu:{
+			Item:{
+				//物料
 				id:'',
 				name:'',
-				note:'',
+				manuid:'',
+				model:'',
 				objs:[]
 			}
 		};
@@ -24,12 +26,12 @@ Vue.component('comp-manu', {
 	},
 	template:''
 	+'<div>'
-	+'  <h4>物料生产厂家信息</h4>'
+	+'  <h4>物料信息</h4>'
 	+'	<div class="col-md-12">'
 	+'		<form class="form-inline">'
 	+'			<div class="form-group">'
 	+'		    	<label for="exampleInputName2">Name</label>'
-	+'		    	<input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">'
+	+'		    	<input type="text" class="form-control" id="exampleInputName2"  placeholder="Jane Doe">'
 	+'		  	</div>'
 	+'		    <div class="form-group">'
 	+'		    	<label for="exampleInputEmail2">Email</label>'

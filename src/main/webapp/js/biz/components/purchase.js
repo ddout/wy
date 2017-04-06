@@ -1,10 +1,11 @@
 /**
- * 物料生产厂家
+ * 购货单位
  */
-Vue.component('comp-manu', {
+Vue.component('comp-purchase', {
 	data: function(){
 		return {
-			Manu:{
+			Purchase:{
+				//购货单位
 				id:'',
 				name:'',
 				note:'',
@@ -24,7 +25,7 @@ Vue.component('comp-manu', {
 	},
 	template:''
 	+'<div>'
-	+'  <h4>物料生产厂家信息</h4>'
+	+'  <h4>购货单位信息</h4>'
 	+'	<div class="col-md-12">'
 	+'		<form class="form-inline">'
 	+'			<div class="form-group">'

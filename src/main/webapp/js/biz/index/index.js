@@ -2,50 +2,7 @@ const app = new Vue({
 		el : '#app-main',
 		router: router,
 		data : {
-			sysMsg:'',
-			sysLoading:false,
-			Enter:{
-				//单位
-				id:'',
-				name:'',
-				orderby:'',
-				pid:'',
-				note:'',
-				objs:[]
-			},
-			Warehouse:{
-				//仓库
-				id:'',
-				name:'',
-				enterid:'',
-				address:'',
-				heads:'',
-				heads_phone:'',
-				note:'',
-				objs:[]
-			},
-			Supplier:{
-				//供应商
-				id:'',
-				name:'',
-				note:'',
-				objs:[]
-			},
-			Purchase:{
-				//购货单位
-				id:'',
-				name:'',
-				note:'',
-				objs:[]
-			},
-			Item:{
-				//物料
-				id:'',
-				name:'',
-				manuid:'',
-				model:'',
-				objs:[]
-			}
+			sysMsg:''
 		},
 		methods : {
 			//

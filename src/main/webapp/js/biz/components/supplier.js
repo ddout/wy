@@ -1,10 +1,11 @@
 /**
- * 物料生产厂家
+ * 供应商
  */
-Vue.component('comp-manu', {
+Vue.component('comp-supplier', {
 	data: function(){
 		return {
-			Manu:{
+			Supplier:{
+				//供应商
 				id:'',
 				name:'',
 				note:'',
@@ -24,7 +25,7 @@ Vue.component('comp-manu', {
 	},
 	template:''
 	+'<div>'
-	+'  <h4>物料生产厂家信息</h4>'
+	+'  <h4>供应商信息</h4>'
 	+'	<div class="col-md-12">'
 	+'		<form class="form-inline">'
 	+'			<div class="form-group">'

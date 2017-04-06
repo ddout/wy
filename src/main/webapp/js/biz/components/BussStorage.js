@@ -1,7 +1,7 @@
 /**
- * 物料生产厂家
+ * 入库
  */
-Vue.component('comp-manu', {
+Vue.component('comp-BussStorage', {
 	data: function(){
 		return {
 			Manu:{
@@ -24,7 +24,7 @@ Vue.component('comp-manu', {
 	},
 	template:''
 	+'<div>'
-	+'  <h4>物料生产厂家信息</h4>'
+	+'  <h4>入库信息</h4>'
 	+'	<div class="col-md-12">'
 	+'		<form class="form-inline">'
 	+'			<div class="form-group">'

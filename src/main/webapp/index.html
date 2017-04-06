@@ -10,7 +10,9 @@
 <body>
 	<div id="app-main" class="container-fluid">
 		<!--  -->
-		<comp-nav></comp-nav>
+		<keep-alive>
+			<comp-nav></comp-nav>
+		</keep-alive>
 		<!--  -->
 		<div id="main-error" class="container-fluid text-center">
 			<p style="font-size:14px;">{{sysMsg}}</p>

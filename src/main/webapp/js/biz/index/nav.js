@@ -60,25 +60,22 @@ Vue.component('comp-nav', {
 				    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">\
 						<ul class="nav navbar-nav">\
 							<li class="nomargin">\
-								<a  class="bgbule imp" role="button">入库</a>\
+								<router-link to="/BussStorage">入库</router-link>\
 							</li>\
 							<li class="nomargin">\
-								<a  class="bgbule imp" role="button">出库</a>\
+								<router-link to="/BussIssue">出库</router-link>\
 							</li>\
 							<li class="dropdown">\
 					          <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系统设置 <span class="caret"></span></a>\
 					          <ul class="dropdown-menu">\
-					            <li><a >单位管理</a></li>\
-					            <li><a >仓库管理</a></li>\
+					            <li><router-link to="/enter">单位管理</router-link></li>\
+					            <li><router-link to="/warehouse">仓库管理</router-link></li>\
 					            <li role="separator" class="divider"></li>\
-					            <li><a >供应商</a></li>\
-					            <li><a >购货单位</a></li>\
+					            <li><router-link to="/supplier">供应商</router-link></li>\
+					            <li><router-link to="/purchase">购货单位</router-link></li>\
 								<li role="separator" class="divider"></li>\
-					            <li><a >物料生产厂家</a></li>\
-					            <li><a >物料</a></li>\
-					            <li><router-link to="/foo">Go to Foo</router-link></li>\
-					            <li><router-link to="/bar">Go to Bar</router-link></li>\
-					            <li><router-link to="/manu">manu</router-link></li>\
+					            <li><router-link to="/manu">物料生产厂家</router-link></li>\
+					            <li><router-link to="/item">物料</router-link></li>\
 					          </ul>\
 					        </li>\
 						</ul>\
@@ -122,7 +119,5 @@ Vue.component('comp-nav', {
 			  </div>\
 			</div>\
 		</div>'
-	
-		
 
 });
