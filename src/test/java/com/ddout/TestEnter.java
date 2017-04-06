@@ -51,7 +51,7 @@ public class TestEnter {
 	//
 	MockHttpServletRequestBuilder mock = post("/enter/add.do").characterEncoding("UTF-8")
 		.contentType(MediaType.APPLICATION_JSON);
-	mock.param("name", "测试2").param("orderby", "1").param("pid", "").param("note", "note");
+	mock.param("name", "测试8").param("orderby", "1").param("pid", "").param("note", "note");
 	ResultActions ra = mockMvc.perform(mock).andExpect(status().isOk()).andDo(print());
 	JSONObject result = JSONObject.fromObject(ra.andReturn().getResponse().getContentAsString());
 	System.out.println(result);

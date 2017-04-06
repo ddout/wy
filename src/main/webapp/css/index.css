@@ -1,11 +1,9 @@
 * {
 	font-size: 12px;
 }
-
 body {
 	padding-bottom: 80px;
 }
-
 #app-main {
 	padding-top: 60px;
 }
@@ -15,3 +13,4 @@ body {
 	min-height: 400px;
 }
 .data-panel{margin-top:30px;}
+.btn-group-sm .btn{margin-right:5px;}
