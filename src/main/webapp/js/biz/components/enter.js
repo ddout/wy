@@ -64,10 +64,17 @@ Vue.component('comp-enter', {
 		updateData:function(_id){
 			var _this = this;
 			console.log('update='+_id)
+			_this.Enter.id=_id;
+			$('#data-Modal').modal('show');
 		},
 		addData:function(){
 			var _this = this;
 			console.log('add=')
+			_this.Enter.id='';
+			$('#data-Modal').modal('show');
+		},
+		dataModalSubmit:function(event){
+			console.log(this.Enter.id)
 		}
 	},
 	template:'\
@@ -111,6 +118,42 @@ Vue.component('comp-enter', {
 				</table>\
 				<comp-dd-pagination v-on:next="next" v-on:prev="prev" v-bind:parmas="search"></comp-dd-pagination>\
 		  </div>\
+		  <div class="modal fade" tabindex="-1" role="dialog" id="data-Modal">\
+			<form v-on:submit.prevent="dataModalSubmit" method="post">\
+			  <div class="modal-dialog" role="document">\
+			    <div class="modal-content">\
+			      <div class="modal-header">\
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
+			        <h4 class="modal-title">单位详情</h4>\
+			      </div>\
+			      <div class="modal-body">\
+		      			<div class="form-group">\
+		      				<label>上级</label>\
+						    <input class="form-control" placeholder="上级" v-model="Enter.pid"/>\
+						</div>\
+						<div class="form-group">\
+							<label>名称</label>\
+						    <input class="form-control" placeholder="名称" v-model="Enter.name"/>\
+						</div>\
+						<div class="form-group">\
+							<label>排序</label>\
+						    <input class="form-control" placeholder="排序" v-model="Enter.orderby"/>\
+						</div>\
+						<div class="form-group">\
+					     	<label>备注</label>\
+					    	<input class="form-control" placeholder="备注" v-model="Enter.note"/>\
+						</div>\
+			      </div>\
+			      <div class="modal-footer">\
+			      	<span style="color:red;margin-right:30px;"></span>\
+			        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>\
+			        <button type="submit" class="btn btn-primary">保存</button>\
+					<input type="hidden" v-model="Enter.id"/>\
+			      </div>\
+			    </div>\
+			  </div>\
+			</form>\
+			</div>\
 		</div>'
 
 });
