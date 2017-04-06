@@ -35,7 +35,7 @@ Vue.component('comp-BussStorage', {
 	+'		    	<label for="exampleInputEmail2">Email</label>'
 	+'		    	<input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">'
 	+'		    </div>'
-	+'		    <button type="submit" class="btn btn-primary btn-sm">搜索</button>'
+	+'		    <a class="btn btn-primary btn-sm">搜索</a>'
 	+'		</form>'
 	+'	</div>'
 	+'	<div class="col-md-12 data-panel">'
