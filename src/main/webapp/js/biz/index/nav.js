@@ -9,13 +9,12 @@ Vue.component('comp-nav', {
 				pwd : '',
 				imgcode : '',
 				auth : false,
-				authMsg : 'xxxxx'
+				authMsg : ''
 			}
 		};
 	},
 	methods : {
 		authUserShow : function() {
-			console.log(this.userInfo)
 			$('#auth-Modal').modal('show');
 			this.userInfo.authMsg = '';
 		},
@@ -29,7 +28,7 @@ Vue.component('comp-nav', {
 					pwd:_this.userInfo.pwd,
 					randCode:_this.userInfo.imgcode
 			};
-			this.$parent.post({
+			_this.$parent.post({
 				url : 'access/login.do',
 				data : data,
 				lock:function(){
@@ -44,14 +43,13 @@ Vue.component('comp-nav', {
 					$('#auth-Modal').modal('hide');
 				},
 				error:function(res){
-					console.log(res);
 					_this.userInfo.authMsg = res;
 				}
 			});
 		},
 	},
 	template:'\
-		<div v-once>\
+		<div>\
 			<nav class="navbar-static-top navbar-default navbar-fixed-top" role="navigation">\
 				<div class="container-fluid">\
 					<div class="navbar-header">\
