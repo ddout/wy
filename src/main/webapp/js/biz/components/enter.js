@@ -8,7 +8,7 @@ Vue.component('comp-enter', {
 				name:'',
 				//
 				start:1,
-				limit:3,
+				limit:10,
 				rowsCount:0,
 				datas:[]
 			},
@@ -19,7 +19,7 @@ Vue.component('comp-enter', {
 				orderby:'',
 				pid:'',
 				note:'',
-				objs:[]
+				errorMsg:''
 			}
 		};
 	},
@@ -27,6 +27,16 @@ Vue.component('comp-enter', {
 		this.loadData();
 	},
 	methods: {
+		clear:function(){
+			this.Enter = {
+					id:'',
+					name:'',
+					orderby:'',
+					pid:'',
+					note:'',
+					errorMsg:''
+			};
+		},
 		next:function(){
 			this.search.start = this.search.start+1;
 			this.loadData();
@@ -63,30 +73,62 @@ Vue.component('comp-enter', {
 		},
 		updateData:function(_id){
 			var _this = this;
-			console.log('update='+_id)
+			_this.clear();
 			_this.Enter.id=_id;
-			$('#data-Modal').modal('show');
+			this.$parent.post({
+				url : 'enter/getById.do',
+				data : {"id":_id},
+				success:function(res){
+					$.extend(_this.Enter, res);
+					$('#data-Modal').modal('show');
+				}
+			});
+			
 		},
 		addData:function(){
 			var _this = this;
-			console.log('add=')
-			_this.Enter.id='';
+			_this.clear();
 			$('#data-Modal').modal('show');
 		},
 		dataModalSubmit:function(event){
-			console.log(this.Enter.id)
+			var _this = this;
+			var url = '';
+			if(this.Enter.id != ''){
+				url = 'enter/update.do';
+			} else {
+				url = 'enter/add.do';
+			}
+			var data = {
+				id:_this.Enter.id,
+				name:_this.Enter.name,
+				note:_this.Enter.note,
+				pid:_this.Enter.pid,
+				orderby:_this.Enter.orderby
+			};
+			this.$parent.post({
+				url : url,
+				data : data,
+				success:function(res){
+					_this.loadData();
+					_this.clear();
+					$('#data-Modal').modal('hide');
+				},
+				error:function(res){
+					_this.Enter.errorMsg = res;
+				}
+			});
 		}
 	},
 	template:'\
 		<div>\
 		  <h4>单位信息</h4>\
 			<div class="col-md-12">\
-				<form class="form-inline">\
+				<form class="form-inline" v-on:submit.prevent="loadData" method="post">\
 					<div class="form-group">\
 				    	<label>名称</label>\
 				    	<input type="text" class="form-control" placeholder="单位名称" v-model="search.name">\
 				  	</div>\
-				    <a class="btn btn-primary btn-sm" v-on:click="loadData">搜索</a>\
+				    <button type="submit" class="btn btn-primary btn-sm">搜索</button>\
 				</form>\
 			</div>\
 			<div class="col-md-12 data-panel">\
@@ -145,7 +187,7 @@ Vue.component('comp-enter', {
 						</div>\
 			      </div>\
 			      <div class="modal-footer">\
-			      	<span style="color:red;margin-right:30px;"></span>\
+			      	<span style="color:red;margin-right:30px;">{{Enter.errorMsg}}</span>\
 			        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>\
 			        <button type="submit" class="btn btn-primary">保存</button>\
 					<input type="hidden" v-model="Enter.id"/>\
