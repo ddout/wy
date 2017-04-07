@@ -4,26 +4,30 @@
 
 	<sql id="listWhere">
 		<if test="name != null and name != ''">
-			and name like CONCAT('%',#{name},'%')
+			and t1.name like CONCAT('%',#{name},'%')
 		</if>
 		<if test="heads != null and heads != ''">
-			and heads = #{heads}
+			and t1.heads = #{heads}
 		</if>
 		<if test="heads_phone != null and heads_phone != ''">
-			and heads_phone = #{heads_phone}
+			and t1.heads_phone = #{heads_phone}
 		</if>
 	</sql>
 
 	<select id="queryItemsListCount" parameterType="map" resultType="int">
-		select count(1) from t_Warehouse
+		select count(1)
+		from t_Warehouse t1
+		left join t_enter t2 on t1.enterid=t2.id
 		where 1=1
 		<include refid="listWhere"></include>
 	</select>
 	<select id="queryItemsList" parameterType="map" resultType="map">
-		select * from t_Warehouse
+		select t1.*,t2.name entername
+		from t_Warehouse t1
+		left join t_enter t2 on t1.enterid=t2.id
 		where 1=1
 		<include refid="listWhere"></include>
-		order by id asc
+		order by t2.orderby asc, t1.id asc
 		limit #{start},#{end}
 	</select>
 
@@ -67,8 +71,9 @@
 	</update>
 	
 	<select id="getById" parameterType="map" resultType="map">
-		select *
-		from t_Warehouse
-		where id=#{id}
+		select t1.*,t2.name entername
+		from t_Warehouse t1
+		left join t_enter t2 on t1.enterid=t2.id
+		where t1.id=#{id}
 	</select>	
 </mapper>

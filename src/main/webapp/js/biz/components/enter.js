@@ -150,7 +150,6 @@ Vue.component('comp-enter', {
 					$.fn.zTree.init($("#treeDataPanel"), setting, zNodes).expandAll(true);
 				}
 			});
-			
 		}
 	},
 	template:'\
