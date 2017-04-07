@@ -4,31 +4,35 @@
 
 	<sql id="listWhere">
 		<if test="houseid != null and houseid != ''">
-			and houseid=#{houseid}
+			and t2.name=#{houseid}
 		</if>
 		<if test="begin_time != null and begin_time != ''">
-			and modify_time &gt;= STR_TO_DATE(#{begin_time},'%Y-%m-%d')
+			and t1.modify_time &gt;= STR_TO_DATE(#{begin_time},'%Y-%m-%d')
 		</if>
 		<if test="end_time != null and end_time != ''">
-			and modify_time &lt;= STR_TO_DATE(#{end_time},'%Y-%m-%d')
+			and t1.modify_time &lt;= STR_TO_DATE(#{end_time},'%Y-%m-%d')
 		</if>
 		
 	</sql>
 
 	<select id="queryItemsListCount" parameterType="map" resultType="int">
-		select count(1) from t_b_storage
+		select count(1) 
+		from t_b_storage t1
+		left join t_Warehouse t2 on t1.houseid=t2.id
 		where 1=1
 		<include refid="listWhere"></include>
 	</select>
 	<select id="queryItemsList" parameterType="map" resultType="map">
 		select 
-			id,DATE_FORMAT(createtime,'%Y-%m-%d %T') createtime,
-			houseid,DATE_FORMAT(modify_time,'%Y-%m-%d') modify_time,
-			note,modify_userid,modify_username
-		from t_b_storage
+			t1.id,DATE_FORMAT(t1.createtime,'%Y-%m-%d %T') createtime,
+			t1.houseid,DATE_FORMAT(t1.modify_time,'%Y-%m-%d') modify_time,
+			t1.note,t1.modify_userid,t1.modify_username,
+			t2.name housename
+		from t_b_storage t1
+		left join t_Warehouse t2 on t1.houseid=t2.id
 		where 1=1
 		<include refid="listWhere"></include>
-		order by houseid asc,modify_time desc
+		order by t1.houseid asc,t1.modify_time desc
 		limit #{start},#{end}
 	</select>
 
@@ -96,10 +100,12 @@
 	
 	<select id="getById" parameterType="map" resultType="map">
 		select 
-			id,DATE_FORMAT(createtime,'%Y-%m-%d %T') createtime,
-			houseid,DATE_FORMAT(modify_time,'%Y-%m-%d') modify_time,
-			note,modify_userid,modify_username
-		from t_b_storage
-		where id=#{id}
+			t1.id,DATE_FORMAT(t1.createtime,'%Y-%m-%d %T') createtime,
+			t1.houseid,DATE_FORMAT(t1.modify_time,'%Y-%m-%d') modify_time,
+			t1.note,t1.modify_userid,t1.modify_username,
+			t2.name housename
+		from t_b_storage t1
+		left join t_Warehouse t2 on t1.houseid=t2.id
+		where t1.id=#{id}
 	</select>
 </mapper>

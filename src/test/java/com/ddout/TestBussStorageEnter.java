@@ -52,7 +52,7 @@ public class TestBussStorageEnter {
 	//
 	MockHttpServletRequestBuilder mock = post("/Buss/Storage/add.do").characterEncoding("UTF-8")
 		.contentType(MediaType.APPLICATION_JSON);
-	mock.param("houseid", "1").param("modify_time", "2015-05-05").param("note", "note22")
+	mock.param("houseid", "1").param("modify_time", "2015-06-05").param("note", "note22")
 		.param("modify_username", "modify_username").param("items", buildDatas(3).toString());
 	ResultActions ra = mockMvc.perform(mock).andExpect(status().isOk()).andDo(print());
 	JSONObject result = JSONObject.fromObject(ra.andReturn().getResponse().getContentAsString());
