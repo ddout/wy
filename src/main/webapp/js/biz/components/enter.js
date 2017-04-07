@@ -16,6 +16,7 @@ Vue.component('comp-enter', {
 				//单位
 				id:'',
 				name:'',
+				pname:'',
 				orderby:'',
 				pid:'',
 				note:'',
@@ -31,6 +32,7 @@ Vue.component('comp-enter', {
 			this.Enter = {
 					id:'',
 					name:'',
+					pname:'',
 					orderby:'',
 					pid:'',
 					note:'',
@@ -145,7 +147,7 @@ Vue.component('comp-enter', {
 							<th class="text-center">操作</th>\
 						</tr>\
 						<tr v-for="item in search.datas">\
-							<td class="text-left">{{item.pid}}</td>\
+							<td class="text-left">{{item.pname}}</td>\
 							<td class="text-left">{{item.name}}</td>\
 							<td class="text-right">{{item.orderby}}</td>\
 							<td class="text-left">{{item.note}}</td>\
@@ -171,7 +173,8 @@ Vue.component('comp-enter', {
 			      <div class="modal-body">\
 		      			<div class="form-group">\
 		      				<label>上级</label>\
-						    <input class="form-control" placeholder="上级" v-model="Enter.pid"/>\
+						    <input type="Enter.pid" v-model="Enter.pid" readonly="readonly"/>\
+							<input class="form-control" placeholder="上级" v-model="Enter.pname" readonly="readonly"/>\
 						</div>\
 						<div class="form-group">\
 							<label>名称</label>\
