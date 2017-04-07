@@ -19,6 +19,7 @@ Vue.component('comp-item', {
 				id:'',
 				name:'',
 				manuid:'',
+				manuname:'',
 				model:'',
 				errorMsg:''
 			}
@@ -33,6 +34,7 @@ Vue.component('comp-item', {
 					id:'',
 					name:'',
 					manuid:'',
+					manuname:'',
 					model:'',
 					errorMsg:''
 			};
@@ -118,6 +120,36 @@ Vue.component('comp-item', {
 					_this.Item.errorMsg = res;
 				}
 			});
+		},
+		showParentTree:function(){
+			var _this = this;
+			var setting = {
+				check: {
+					enable: false
+				},
+				data: {  
+	                simpleData: {  
+	                    enable: true,
+	                    idKey: "id"
+	                }
+	            },
+	            callback: {
+	            	beforeClick: function zTreeOnClick(treeId, treeNode) {
+	            		_this.Item.manuid=treeNode.id;
+	            		_this.Item.manuname=treeNode.name;
+	            		$('#tree-modal').modal('hide');
+					}
+				}
+			};
+			this.$parent.post({
+				url : 'Manu/list.do',
+				data : {start:1,limit:999999},
+				success:function(res){
+					var zNodes = res['data'];
+					$('#tree-modal').modal('show');
+					$.fn.zTree.init($("#treeDataPanel"), setting, zNodes).expandAll(true);
+				}
+			});
 		}
 	},
 	template:'\
@@ -153,7 +185,7 @@ Vue.component('comp-item', {
 							<th class="text-center">操作</th>\
 						</tr>\
 						<tr v-for="item in search.datas">\
-							<td class="text-left">{{item.manuid}}</td>\
+							<td class="text-left">{{item.manuname}}</td>\
 							<td class="text-left">{{item.name}}</td>\
 							<td class="text-left">{{item.model}}</td>\
 							<td class="text-left">\
@@ -178,7 +210,8 @@ Vue.component('comp-item', {
 			      <div class="modal-body">\
 						<div class="form-group">\
 							<label>生产厂家</label>\
-						    <input class="form-control" placeholder="生产厂家" v-model="Item.manuid"/>\
+						    <input type="hidden" v-model="Item.manuid" readonly="readonly"/>\
+							<input class="form-control" placeholder="生产厂家" v-model="Item.manuname" v-on:click="showParentTree" readonly="readonly"/>\
 						</div>\
 						<div class="form-group">\
 							<label>名称</label>\
@@ -198,6 +231,31 @@ Vue.component('comp-item', {
 			    </div>\
 			  </div>\
 			</form>\
+			</div>\
+			\
+			<div aria-hidden="true" id="tree-modal" class="modal fade" tabIndex="-1" role="dialog">\
+				<div class="modal-dialog">\
+					<div class="modal-content">\
+						<div class="modal-header bg-primary">\
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>\
+							<h5 class="modal-title">\
+			                    <i class="icon-pencil"></i>\
+			                    <span id="lblAddTitle" style="font-weight:bold">选择数据</span>\
+			                </h5>\
+						</div>\
+						<div class="modal-body">\
+							<div class="row">\
+								<div class="col-md-12">\
+			                       	<div id="treeDataPanel" class="ztree" style="overflow-y:scroll;min-height: 400px;max-height: 600px">\
+			            			</div>\
+								</div>\
+							</div>\
+						</div>\
+						<div class="modal-footer">\
+							<button type="button" class="btn default" data-dismiss="modal">关闭</button>\
+						</div>\
+					</div>\
+				</div>\
 			</div>\
 		</div>'
 

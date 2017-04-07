@@ -4,28 +4,31 @@
 
 	<sql id="listWhere">
 		<if test="name != null and name != ''">
-			and name like CONCAT('%',#{name},'%')
+			and t1.name like CONCAT('%',#{name},'%')
 		</if>
 		
 		<if test="manuid != null and manuid != ''">
-			and manuid =#{manuid}
+			and t2.name like CONCAT('%',#{manuid},'%')
 		</if>
-		
 		<if test="model != null and model != ''">
-			and model like CONCAT('%',#{model},'%')
+			and t1.model like CONCAT('%',#{model},'%')
 		</if>
 	</sql>
 
 	<select id="queryItemsListCount" parameterType="map" resultType="int">
-		select count(1) from t_item
+		select count(1)
+		from t_item t1
+		left join t_Manu t2 on t2.id=t1.manuid
 		where 1=1
 		<include refid="listWhere"></include>
 	</select>
 	<select id="queryItemsList" parameterType="map" resultType="map">
-		select * from t_item
+		select t1.*,t2.name manuname
+		from t_item t1
+		left join t_Manu t2 on t2.id=t1.manuid
 		where 1=1
 		<include refid="listWhere"></include>
-		order by manuid asc,name asc,model asc
+		order by t1.manuid asc,t1.name asc,t1.model asc
 		limit #{start},#{end}
 	</select>
 
@@ -67,8 +70,9 @@
 	</update>
 	
 	<select id="getById" parameterType="map" resultType="map">
-		select *
-		from t_item
-		where id=#{id}
+		select t1.*,t2.name manuname
+		from t_item t1
+		left join t_Manu t2 on t2.id=t1.manuid
+		where t1.id=#{id}
 	</select>	
 </mapper>
