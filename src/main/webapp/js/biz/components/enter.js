@@ -119,6 +119,38 @@ Vue.component('comp-enter', {
 					_this.Enter.errorMsg = res;
 				}
 			});
+		},
+		showParentTree:function(){
+			var _this = this;
+			var setting = {
+				check: {
+					enable: false
+				},
+				data: {  
+	                simpleData: {  
+	                    enable: true,
+	                    idKey: "id",
+	        			pIdKey: "pid"
+	                }
+	            },
+	            callback: {
+	            	beforeClick: function zTreeOnClick(treeId, treeNode) {
+	            		_this.Enter.pid=treeNode.id;
+	            		_this.Enter.pname=treeNode.name;
+	            		$('#tree-modal').modal('hide');
+					}
+				}
+			};
+			this.$parent.post({
+				url : 'enter/list.do',
+				data : {start:1,limit:999999},
+				success:function(res){
+					var zNodes = res['data'];
+					$('#tree-modal').modal('show');
+					$.fn.zTree.init($("#treeDataPanel"), setting, zNodes).expandAll(true);
+				}
+			});
+			
 		}
 	},
 	template:'\
@@ -173,8 +205,8 @@ Vue.component('comp-enter', {
 			      <div class="modal-body">\
 		      			<div class="form-group">\
 		      				<label>上级</label>\
-						    <input type="Enter.pid" v-model="Enter.pid" readonly="readonly"/>\
-							<input class="form-control" placeholder="上级" v-model="Enter.pname" readonly="readonly"/>\
+						    <input type="hidden" v-model="Enter.pid" readonly="readonly"/>\
+							<input class="form-control" placeholder="上级" v-model="Enter.pname" v-on:click="showParentTree" readonly="readonly"/>\
 						</div>\
 						<div class="form-group">\
 							<label>名称</label>\
@@ -198,6 +230,31 @@ Vue.component('comp-enter', {
 			    </div>\
 			  </div>\
 			</form>\
+			</div>\
+			\
+			<div aria-hidden="true" id="tree-modal" class="modal fade" tabIndex="-1" role="dialog">\
+				<div class="modal-dialog">\
+					<div class="modal-content">\
+						<div class="modal-header bg-primary">\
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>\
+							<h5 class="modal-title">\
+			                    <i class="icon-pencil"></i>\
+			                    <span id="lblAddTitle" style="font-weight:bold">选择数据</span>\
+			                </h5>\
+						</div>\
+						<div class="modal-body">\
+							<div class="row">\
+								<div class="col-md-12">\
+			                       	<div id="treeDataPanel" class="ztree" style="overflow-y:scroll;min-height: 400px;max-height: 600px">\
+			            			</div>\
+								</div>\
+							</div>\
+						</div>\
+						<div class="modal-footer">\
+							<button type="button" class="btn default" data-dismiss="modal">关闭</button>\
+						</div>\
+					</div>\
+				</div>\
 			</div>\
 		</div>'
 
