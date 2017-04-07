@@ -89,8 +89,12 @@ public class BussStorageServiceImpl implements IBussStorageService {
 	mapper.delItems(parm);
 	mapper.del(parm);
     }
+
     @Override
     public Map<String, Object> getById(Map<String, Object> parm) {
-	return mapper.getById(parm);
+	Map<String, Object> item = mapper.getById(parm);
+	List<Map<String, Object>> items = mapper.getItemsByPId(parm);
+	item.put("items", items);
+	return item;
     }
 }

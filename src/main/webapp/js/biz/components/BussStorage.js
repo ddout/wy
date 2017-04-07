@@ -6,8 +6,8 @@ Vue.component('comp-BussStorage', {
 		return {
 			search:{
 				houseid:'',
-				begin_time:'',
-				end_time:'',
+				beginTime:'',
+				endTime:'',
 				//
 				start:1,
 				limit:10,
@@ -32,8 +32,8 @@ Vue.component('comp-BussStorage', {
 			var _this = this;
 			var data = {
 					houseid:this.search.houseid,
-					begin_time:this.search.begin_time,
-					end_time:this.search.end_time,
+					begin_time:this.search.beginTime,
+					end_time:this.search.endTime,
 					start:this.search.start,
 					limit:this.search.limit
 			};
@@ -56,14 +56,14 @@ Vue.component('comp-BussStorage', {
 				}
 			});
 		},
-		viewData:function(_id){
-			
+		addData:function(){
+			this.$router.push({ name: 'compBussStorageView', params: { type:'add', id: '0' }});
 		},
 		updateData:function(_id){
-			
+			this.$router.push({ name: 'compBussStorageView', params: { type:'update', id: _id }});
 		},
-		addData:function(){
-			
+		viewData:function(_id){
+			this.$router.push({ name: 'compBussStorageView', params: { type:'view', id: _id }});
 		}
 	},
 	template:'\
@@ -77,8 +77,8 @@ Vue.component('comp-BussStorage', {
 				  	</div>\
 					<div class="form-group">\
 				    	<label>入库时间</label>\
-				    	<input type="text" class="form-control" placeholder="开始时间" v-model="search.begin_time">\
-						<input type="text" class="form-control" placeholder="结束时间" v-model="search.end_time">\
+				    	<input type="text" class="form-control" placeholder="开始时间" v-model="search.beginTime" onClick="WdatePicker({onpicked: function(){ $(this).trigger(\'change\') }})">-\
+						<input type="text" class="form-control" placeholder="结束时间" v-model="search.endTime" >\
 				  	</div>\
 				    <button type="submit" class="btn btn-primary btn-sm">搜索</button>\
 				</form>\
@@ -90,6 +90,7 @@ Vue.component('comp-BussStorage', {
 				<table class="table table-bordered">\
 					<tbody>\
 						<tr>\
+							<th class="text-center">编号</th>\
 							<th class="text-center">仓库名称</th>\
 							<th class="text-center">操作人</th>\
 							<th class="text-center">入库时间</th>\
@@ -97,6 +98,7 @@ Vue.component('comp-BussStorage', {
 							<th class="text-center">操作</th>\
 						</tr>\
 						<tr v-for="item in search.datas">\
+							<td class="text-right">{{item.id}}</td>\
 							<td class="text-left">{{item.housename}}</td>\
 							<td class="text-left">{{item.modify_username}}</td>\
 							<td class="text-right">{{item.modify_time}}</td>\

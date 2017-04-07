@@ -69,6 +69,14 @@ router = new VueRouter({
 			libPath : 'components/BussStorage'
 		}
 	}, {
+		//入库详情--
+		name : 'compBussStorageView',
+		component : 'comp-BussStorage-view',
+		path : '/BussStorageView/:type/:id',
+		meta : {
+			libPath : 'components/BussStorageView'
+		}
+	}, {
 		// 出库流程
 		name : 'compBussIssue',
 		component : 'comp-BussIssue',

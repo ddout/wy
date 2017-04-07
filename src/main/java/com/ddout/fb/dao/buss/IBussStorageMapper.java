@@ -21,4 +21,6 @@ public interface IBussStorageMapper {
 
     void delItems(Map<String, Object> map);
     Map<String, Object> getById(Map<String, Object> parm);
+
+    List<Map<String, Object>> getItemsByPId(Map<String, Object> parm);
 }

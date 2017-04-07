@@ -108,4 +108,15 @@
 		left join t_Warehouse t2 on t1.houseid=t2.id
 		where t1.id=#{id}
 	</select>
+	<select id="getItemsByPId" parameterType="map" resultType="map">
+		select 
+			t1.*,t2.name suppliername,t3.name itemname,t3.model,t4.name manuname
+		from t_b_storage_items t1
+		left join t_Supplier t2 on t1.supplierid=t2.id
+		left join t_item t3 on t1.itemid=t3.id
+		left join t_Manu t4 on t3.manuid=t4.id
+		where t1.storageid=4
+		order by t1.id asc
+	</select>
+	
 </mapper>
