@@ -21,7 +21,7 @@
 		left join t_enter t2 on t2.id=t1.pid
 		where 1=1
 		<include refid="listWhere"></include>
-		order by t2.id asc,t2.orderby asc, t1.orderby asc
+		order by t2.id desc,t2.orderby asc, t1.orderby asc
 		limit #{start},#{end}
 	</select>
 

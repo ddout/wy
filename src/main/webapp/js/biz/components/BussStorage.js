@@ -17,8 +17,8 @@ Vue.component('comp-BussStorage', {
 		};
 	},
 	mounted:function () {
-		var _this = this;
 		this.loadData();
+		var _this = this;
 		$('.form_date').datetimepicker({
 	        language:  'zh-CN',
 	        weekStart: 1,
@@ -40,7 +40,7 @@ Vue.component('comp-BussStorage', {
 	    	} else if(field == 'search-endTime'){
 	    		_this.search.endTime = dateStr;
 	    	}
-	    });;
+	    });
 	},
 	methods: {
 		next:function(){

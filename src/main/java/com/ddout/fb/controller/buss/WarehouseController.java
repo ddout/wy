@@ -1,5 +1,6 @@
 package com.ddout.fb.controller.buss;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -104,6 +105,25 @@ public class WarehouseController {
 	Result obj = new Result();
 	try {
 	    Map<String,Object> result = service.getById(parm);
+	    obj.setRows(result);
+	} catch (BizException e) {
+	    log.debug("操作失败", e);
+	    obj.setResult(Result.RESULT_ERROR);
+	    obj.setMsg(e.getMessage());
+	} catch (Exception e) {
+	    log.error("操作失败", e);
+	    obj.setResult(Result.RESULT_ERROR);
+	    obj.setMsg(Result.RESULT_ERROR_MSG);
+	}
+	return obj;
+    }
+    
+    @RequestMapping("/getTreeData")
+    @ResponseBody
+    public Object getTreeData(@RequestParam Map<String, Object> parm) {
+	Result obj = new Result();
+	try {
+	    List<Map<String,Object>> result = service.getTreeData(parm);
 	    obj.setRows(result);
 	} catch (BizException e) {
 	    log.debug("操作失败", e);

@@ -27,7 +27,7 @@
 		left join t_enter t2 on t1.enterid=t2.id
 		where 1=1
 		<include refid="listWhere"></include>
-		order by t2.orderby asc, t1.id asc
+		order by t2.orderby asc, t1.id desc
 		limit #{start},#{end}
 	</select>
 
@@ -75,5 +75,20 @@
 		from t_Warehouse t1
 		left join t_enter t2 on t1.enterid=t2.id
 		where t1.id=#{id}
+	</select>
+	
+	<select id="getTreeData" parameterType="map" resultType="map">
+		select t.* from 
+		(
+				select 0 ttype, CONCAT('w_',t1.id) id, t1.id sid, t1.name, CONCAT('e_',t1.enterid) pid,0 orderby
+				from t_warehouse t1
+		
+				union all
+		
+				select 1 ttype,CONCAT('e_',t1.id) id, t1.id sid, t1.name,CONCAT('e_',t1.pid) pid,t1.orderby 
+				from t_enter t1
+		) t
+		order by t.ttype desc,t.orderby asc,t.id asc		
 	</select>	
+	
 </mapper>

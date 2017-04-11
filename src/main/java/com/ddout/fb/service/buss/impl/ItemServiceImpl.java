@@ -69,4 +69,9 @@ public class ItemServiceImpl implements IItemService {
     public Map<String, Object> getById(Map<String, Object> parm) {
 	return mapper.getById(parm);
     }
+
+    @Override
+    public List<Map<String, Object>> getTreeData(Map<String, Object> parm) {
+	return mapper.getTreeData(parm);
+    }
 }

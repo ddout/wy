@@ -93,8 +93,10 @@ public class BussStorageServiceImpl implements IBussStorageService {
     @Override
     public Map<String, Object> getById(Map<String, Object> parm) {
 	Map<String, Object> item = mapper.getById(parm);
-	List<Map<String, Object>> items = mapper.getItemsByPId(parm);
-	item.put("items", items);
+	if (null != item && item.size() > 0) {
+	    List<Map<String, Object>> items = mapper.getItemsByPId(parm);
+	    item.put("items", items);
+	}
 	return item;
     }
 }

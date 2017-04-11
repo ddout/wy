@@ -75,4 +75,18 @@
 		left join t_Manu t2 on t2.id=t1.manuid
 		where t1.id=#{id}
 	</select>	
+	<select id="getTreeData" parameterType="map" resultType="map">
+		select t.* from
+		(
+				select 0 ttype, CONCAT('i_',t1.id) id, t1.id sid, CONCAT(t1.name,'-',t1.model) name,t1.name itemname,t1.model, CONCAT('m_',t1.manuid) pid
+				from t_item t1
+		
+				union all
+		
+				select 1 ttype, CONCAT('m_',t1.id) id, t1.id sid, t1.name,'' itemname, '' model, 0 pid
+				from t_manu t1
+		) t
+		order by t.ttype desc,t.name asc, t.name asc		
+	</select>
+	
 </mapper>

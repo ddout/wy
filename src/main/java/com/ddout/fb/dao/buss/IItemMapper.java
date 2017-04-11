@@ -17,4 +17,6 @@ public interface IItemMapper {
 
     void del(Map<String, Object> parm);
     Map<String, Object> getById(Map<String, Object> parm);
+
+    List<Map<String, Object>> getTreeData(Map<String, Object> parm);
 }
