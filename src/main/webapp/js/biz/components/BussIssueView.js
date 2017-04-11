@@ -362,7 +362,7 @@ Vue.component('comp-BussIssue-view', {
 						<input class="form-control" placeholder="仓库" v-model="BussIssue.housename" v-on:click="showWareHouse" readonly="readonly"/>\
 				  	</div>\
 					<div class="form-group col-md-5">\
-				    	<label>入库时间</label>\
+				    	<label>出库时间</label>\
 						<div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="BussIssue_modify_time" data-link-format="yyyy-mm-dd">\
 					        <input class="form-control" size="16" type="text" value="" v-model="BussIssue.modify_time" readonly>\
 					        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>\
