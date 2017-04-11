@@ -17,7 +17,30 @@ Vue.component('comp-BussStorage', {
 		};
 	},
 	mounted:function () {
+		var _this = this;
 		this.loadData();
+		$('.form_date').datetimepicker({
+	        language:  'zh-CN',
+	        weekStart: 1,
+	        todayBtn:  1,
+	        autoclose: 1,
+	        todayHighlight: 1,
+	        startView: 2,
+	        minView: 2,
+	        forceParse: 0,
+	        format: 'yyyy-mm-dd'
+	    }).on('changeDate', function(ev){
+	    	var field = ev.target.getAttribute('data-link-field');
+	    	var dateStr = '';
+	    	if(ev.date){
+	    		dateStr = ev.date.getFullYear() + '-' + (ev.date.getMonth() < 9 ? '0' + (ev.date.getMonth()+1) : ev.date.getMonth()+1) + '-' + (ev.date.getDate() < 10 ? '0' + ev.date.getDate() : ev.date.getDate());
+	    	}
+	    	if(field == 'search-beginTime'){
+	    		_this.search.beginTime = dateStr;
+	    	} else if(field == 'search-endTime'){
+	    		_this.search.endTime = dateStr;
+	    	}
+	    });;
 	},
 	methods: {
 		next:function(){
@@ -77,8 +100,16 @@ Vue.component('comp-BussStorage', {
 				  	</div>\
 					<div class="form-group">\
 				    	<label>入库时间</label>\
-				    	<input type="text" class="form-control" placeholder="开始时间" v-model="search.beginTime" onClick="WdatePicker({onpicked: function(){ $(this).trigger(\'change\') }})">-\
-						<input type="text" class="form-control" placeholder="结束时间" v-model="search.endTime" >\
+						<div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="search-beginTime" data-link-format="yyyy-mm-dd">\
+					        <input class="form-control" size="16" type="text" value="" v-model="search.beginTime" readonly>\
+					        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>\
+							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>\
+					    </div>\
+						<div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="search-endTime" data-link-format="yyyy-mm-dd">\
+					        <input class="form-control" size="16" type="text" value="" readonly>\
+					        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>\
+							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>\
+					    </div>\
 				  	</div>\
 				    <button type="submit" class="btn btn-primary btn-sm">搜索</button>\
 				</form>\
