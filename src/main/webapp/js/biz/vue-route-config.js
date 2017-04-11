@@ -84,6 +84,14 @@ router = new VueRouter({
 		meta : {
 			libPath : 'components/BussIssue'
 		}
+	}, {
+		//出库详情--
+		name : 'compBussIssueView',
+		component : 'comp-BussIssue-view',
+		path : '/BussIssueView/:type/:id',
+		meta : {
+			libPath : 'components/BussIssueView'
+		}
 	} ]
 });
 //

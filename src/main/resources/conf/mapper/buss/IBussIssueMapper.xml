@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ddout.fb.dao.buss.IBussStorageMapper">
+<mapper namespace="com.ddout.fb.dao.buss.IBussIssueMapper">
 
 	<sql id="listWhere">
 		<if test="houseid != null and houseid != ''">
@@ -17,7 +17,7 @@
 
 	<select id="queryItemsListCount" parameterType="map" resultType="int">
 		select count(1) 
-		from t_b_storage t1
+		from t_b_issue t1
 		left join t_Warehouse t2 on t1.houseid=t2.id
 		where 1=1
 		<include refid="listWhere"></include>
@@ -28,7 +28,7 @@
 			t1.houseid,DATE_FORMAT(t1.modify_time,'%Y-%m-%d') modify_time,
 			t1.note,t1.modify_userid,t1.modify_username,
 			t2.name housename
-		from t_b_storage t1
+		from t_b_issue t1
 		left join t_Warehouse t2 on t1.houseid=t2.id
 		where 1=1
 		<include refid="listWhere"></include>
@@ -38,7 +38,7 @@
 
 	<insert id="add" parameterType="map" useGeneratedKeys="true"
 		keyProperty="id">
-		insert into t_b_storage
+		insert into t_b_issue
 		(createtime,houseid,modify_time,note,modify_userid,modify_username)
 		values
 		(
@@ -53,23 +53,27 @@
 	
 	<insert id="addItems" parameterType="map" useGeneratedKeys="true"
 		keyProperty="id">
-		insert into t_b_storage_items
+		insert into t_b_issue_items
 		(
-		storageid,supplierid,itemid,
+		issueid,purchaseid,itemid,
 		item_num,item_num2,item_weight,
-		item_dj,item_je,item_note
+		item_dj,item_je,
+		item_zdje,item_salesman,item_drxkj,
+		item_cj,item_bc
 		)
 		values
 		(
-		#{storageid,jdbcType=NUMERIC},#{supplierid,jdbcType=NUMERIC},#{itemid,jdbcType=NUMERIC},
+		#{issueid,jdbcType=NUMERIC},#{purchaseid,jdbcType=NUMERIC},#{itemid,jdbcType=NUMERIC},
 		#{item_num,jdbcType=NUMERIC},#{item_num2,jdbcType=NUMERIC},#{item_weight,jdbcType=NUMERIC},
-		#{item_dj,jdbcType=NUMERIC},#{item_je,jdbcType=NUMERIC},#{item_note,jdbcType=VARCHAR}
+		#{item_dj,jdbcType=NUMERIC},#{item_je,jdbcType=NUMERIC},
+		#{item_zdje,jdbcType=NUMERIC},#{item_salesman,jdbcType=VARCHAR},
+		#{item_drxkj,jdbcType=NUMERIC},#{item_cj,jdbcType=NUMERIC},#{item_bc,jdbcType=NUMERIC}
 		)
 	</insert>
 	
 	<delete id="delItems" parameterType="map">
-		delete from t_b_storage_items
-		where storageid=#{storageid}
+		delete from t_b_issue_items
+		where issueid=#{issueid}
 	</delete>
 
 	<select id="queryItem" parameterType="map" resultType="map">
@@ -77,7 +81,7 @@
 			id,DATE_FORMAT(createtime,'%Y-%m-%d %T') createtime,
 			houseid,DATE_FORMAT(modify_time,'%Y-%m-%d %T') modify_time,
 			note,modify_userid,modify_username
-		from t_b_storage
+		from t_b_issue
 		where name=#{name}
 		<if test="id != null and id != ''">
 			and id != #{id}
@@ -86,10 +90,11 @@
 	</select>
 	
 	<delete id="del" parameterType="map">
-		delete from t_b_storage where id=#{id}
+		delete from t_b_issue where id=#{id}
 	</delete>
+	
 	<update id="update">
-		update t_b_storage
+		update t_b_issue
 		set houseid=#{houseid,jdbcType=NUMERIC},
 			note=#{note,jdbcType=VARCHAR},
 			modify_time=STR_TO_DATE(#{modify_time,jdbcType=VARCHAR},'%Y-%m-%d'),
@@ -104,18 +109,18 @@
 			t1.houseid,DATE_FORMAT(t1.modify_time,'%Y-%m-%d') modify_time,
 			t1.note,t1.modify_userid,t1.modify_username,
 			t2.name housename
-		from t_b_storage t1
+		from t_b_issue t1
 		left join t_Warehouse t2 on t1.houseid=t2.id
 		where t1.id=#{id}
 	</select>
 	<select id="getItemsByPId" parameterType="map" resultType="map">
-		select 
-			t1.*,t2.name suppliername,t3.name itemname,t3.model,t4.name manuname
-		from t_b_storage_items t1
-		left join t_Supplier t2 on t1.supplierid=t2.id
+		select
+			t1.*,t2.name purchasename,t3.name itemname,t3.model,t4.name manuname
+		from t_b_issue_items t1
+		left join t_purchase t2 on t1.purchaseid=t2.id
 		left join t_item t3 on t1.itemid=t3.id
 		left join t_Manu t4 on t3.manuid=t4.id
-		where t1.storageid=#{id}
+		where t1.issueid=#{id}
 		order by t1.id asc
 	</select>
 	

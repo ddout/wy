@@ -12,19 +12,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cdhy.commons.utils.exception.BizException;
 import com.cdhy.commons.utils.model.Page;
 import com.cdhy.commons.utils.model.Result;
-import com.ddout.fb.service.buss.IPurchaseService;
+import com.ddout.fb.service.buss.IBussIssueService;
+
 /**
- * 购货单位
+ * 出库流程
+ * 
  * @author ddout
  *
  */
 @Controller
-@RequestMapping("/Purchase")
-public class PurchaseController {
-    private static final Logger log = Logger.getLogger(PurchaseController.class);
+@RequestMapping("/Buss/Issue")
+public class BussIssueController {
+    private static final Logger log = Logger.getLogger(BussIssueController.class);
 
     @Autowired
-    private IPurchaseService service;
+    private IBussIssueService service;
 
     @RequestMapping("/list")
     @ResponseBody
