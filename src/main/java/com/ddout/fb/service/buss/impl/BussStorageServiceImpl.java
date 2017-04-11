@@ -42,6 +42,10 @@ public class BussStorageServiceImpl implements IBussStorageService {
 
     @Override
     public void add(Map<String, Object> parm) {
+	String houseid = ParamsUtil.getString4Map(parm, "houseid");
+	if("".equals(houseid)){
+	    throw new BizException("仓库必选");
+	}
 	parm.put("modify_userid", 0);
 	mapper.add(parm);
 	int id = ParamsUtil.getInt4Map(parm, "id");
@@ -49,6 +53,9 @@ public class BussStorageServiceImpl implements IBussStorageService {
 	JSONArray items = JSONArray.fromObject(itemsStr);
 	for (int i = 0; i < items.size(); i++) {
 	    JSONObject item = items.getJSONObject(i);
+	    if("".equals(item.getString("supplierid"))){
+		item.remove("supplierid");
+	    }
 	    item.put("storageid", id);
 	    mapper.addItems(item);
 	}
@@ -59,6 +66,10 @@ public class BussStorageServiceImpl implements IBussStorageService {
 	String idStr = ParamsUtil.getString4Map(parm, "id");
 	if ("".equals(idStr)) {
 	    throw new BizException("id is not null");
+	}
+	String houseid = ParamsUtil.getString4Map(parm, "houseid");
+	if("".equals(houseid)){
+	    throw new BizException("仓库必选");
 	}
 	mapper.update(parm);
 	final int id = ParamsUtil.getInt4Map(parm, "id");
@@ -73,6 +84,9 @@ public class BussStorageServiceImpl implements IBussStorageService {
 	});
 	for (int i = 0; i < items.size(); i++) {
 	    JSONObject item = items.getJSONObject(i);
+	    if("".equals(item.getString("supplierid"))){
+		item.remove("supplierid");
+	    }
 	    item.put("storageid", id);
 	    mapper.addItems(item);
 	}

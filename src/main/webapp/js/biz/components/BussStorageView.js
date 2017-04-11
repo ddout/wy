@@ -10,6 +10,7 @@ Vue.component('comp-BussStorage-view', {
 			},
 			item:{
 				id:'',
+				itemid:'',
 				itemname:'',
 				model:'',
 				manuname:'',
@@ -89,11 +90,8 @@ Vue.component('comp-BussStorage-view', {
 			this.clear();
 			var _this = this;
 			if(_this.View.type == 'update'){
-				
 			} else if(_this.View.type == 'view'){
-				
 			} else if(_this.View.type == 'add'){
-				
 			} else {
 				return;
 			}
@@ -171,7 +169,8 @@ Vue.component('comp-BussStorage-view', {
 	            callback: {
 	            	beforeClick: function zTreeOnClick(treeId, treeNode) {
 	            		if(treeNode.ttype == '0'){
-	            			_this.item.id=treeNode.sid;
+	            			_this.item.id=new Date().getTime();
+	            			_this.item.itemid=treeNode.sid;
 	            			_this.item.itemname=treeNode.itemname;
 	            			_this.item.model=treeNode.model;
 	            			if(treeNode.getParentNode()){
@@ -204,11 +203,42 @@ Vue.component('comp-BussStorage-view', {
 			if(this.item.id==''){
 				return;
 			}
+			try {
+				if(parseFloat(this.item.item_num,10) == NaN){
+					this.item.item_num = 0;
+				} else {
+					this.item.item_num = parseFloat(this.item.item_num,10);
+				}
+				if(parseFloat(this.item.item_num2,10) == NaN){
+					this.item.item_num2 = 0;
+				} else {
+					this.item.item_num2 = parseFloat(this.item.item_num2,10);
+				}
+				if(parseFloat(this.item.item_weight,10) == NaN){
+					this.item.item_weight = 0;
+				} else {
+					this.item.item_weight = parseFloat(this.item.item_weight,10);
+				}
+				if(parseFloat(this.item.item_dj,10) == NaN){
+					this.item.item_dj = 0;
+				} else {
+					this.item.item_dj = parseFloat(this.item.item_dj,10);
+				}
+				if(parseFloat(this.item.item_je,10) == NaN){
+					this.item.item_je = 0;
+				} else {
+					this.item.item_je = parseFloat(this.item.item_je,10);
+				}
+			} catch (e) {
+				console.log(e);
+				return;
+			}
 			var newItem = {};
 			$.extend(newItem,this.item);
 			this.BussStorage.items.push(newItem);
 			this.item = {
 				id:'',
+				itemid:'',
 				itemname:'',
 				model:'',
 				manuname:'',
@@ -260,7 +290,32 @@ Vue.component('comp-BussStorage-view', {
 			});
 		},
 		postStorageData:function(){
-			console.log(this.BussStorage);
+			var _this = this;
+			var url = '';
+			if(_this.View.type == 'add'){
+				_this.BussStorage.id = '';
+				url = 'Buss/Storage/add.do';
+			} else {
+				url = 'Buss/Storage/update.do';
+			}
+			this.$parent.post({
+				url : url,
+				data : {
+					id:_this.BussStorage.id,
+					houseid:_this.BussStorage.houseid,
+					modify_time:_this.BussStorage.modify_time,
+					note:_this.BussStorage.note,
+					modify_userid:_this.BussStorage.modify_userid,
+					modify_username:_this.BussStorage.modify_username,
+					items:JSON.stringify(_this.BussStorage.items)
+				},
+				success:function(res){
+					_this.back();
+				},
+				error:function(res){
+					_this.BussStorage.errorMsg=res;
+				}
+			});
 		}
 	},
 	template:'\

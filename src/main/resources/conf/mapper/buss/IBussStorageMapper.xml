@@ -115,7 +115,7 @@
 		left join t_Supplier t2 on t1.supplierid=t2.id
 		left join t_item t3 on t1.itemid=t3.id
 		left join t_Manu t4 on t3.manuid=t4.id
-		where t1.storageid=4
+		where t1.storageid=#{id}
 		order by t1.id asc
 	</select>
 	
