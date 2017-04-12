@@ -100,6 +100,14 @@ router = new VueRouter({
 		meta : {
 			libPath : 'components/freight'
 		}
+	}, {
+		// 进出货明细统计
+		name : 'compRpt1',
+		component : 'comp-rpt1',
+		path : '/rpt1',
+		meta : {
+			libPath : 'components/rpt1'
+		}
 	} ]
 });
 //

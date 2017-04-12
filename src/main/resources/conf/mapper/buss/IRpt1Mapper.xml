@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ddout.fb.dao.buss.IRpt1Mapper">
+<!-- houseid,begin_time,end_time -->
+	<sql id="listWhere">
+		<if test="houseid != null and houseid != ''">
+			and twh.name like CONCAT('%',#{houseid},'%')
+		</if>
+		<if test="begin_time != null and begin_time != ''">
+			and modify_time &gt;= STR_TO_DATE(#{begin_time},'%Y-%m-%d')
+		</if>
+		<if test="end_time != null and end_time != ''">
+			and modify_time &lt;= STR_TO_DATE(#{end_time},'%Y-%m-%d')
+		</if>
+	</sql>
+
+
+	<select id="queryTp1List" parameterType="map" resultType="map">
+		select 
+			tbs.id sid,DATE_FORMAT(tbs.modify_time,'%Y-%m-%d') modify_time,
+			DATE_FORMAT(tbs.createtime,'%Y-%m-%d %T') createtime,
+			tbs.modify_userid,tbs.modify_username,tbs.note,
+			tbsi.id,tbsi.item_dj,tbsi.item_je,tbsi.item_note,tbsi.item_num,tbsi.item_num2,tbsi.item_weight,
+			tit.name itemname, tit.model itemmodel,
+			tm.name manuname,
+			twh.name housename,
+			tsu.name suppliername
+		from t_b_storage tbs
+		left join t_b_storage_items tbsi on tbs.id=tbsi.storageid
+		left join t_item tit on tbsi.itemid=tit.id
+		left join t_manu tm on tit.manuid=tm.id
+		left join t_warehouse twh on tbs.houseid=twh.id
+		left join t_supplier tsu on tbsi.supplierid=tsu.id
+	  	where 1=1
+	  	<include refid="listWhere"></include>
+	    order by tbs.modify_time asc,twh.name asc,tsu.name asc,tit.name asc, tit.model asc,tm.name asc
+	</select>
+
+
+	<select id="queryTp2List" parameterType="map" resultType="map">
+		select 
+			tbi.id sid,DATE_FORMAT(tbi.modify_time,'%Y-%m-%d') modify_time,
+			DATE_FORMAT(tbi.createtime,'%Y-%m-%d %T') createtime,
+			tbi.modify_userid,tbi.modify_username,tbi.note,
+			tbii.id,tbii.item_bc,tbii.item_cj,tbii.item_dj,tbii.item_drxkj,tbii.item_je,tbii.item_num,tbii.item_num2,tbii.item_salesman,tbii.item_weight,tbii.item_zdje,
+			tit.name itemname, tit.model itemmodel,
+			tm.name manuname,
+			twh.name housename,
+			tpu.name purchasename
+		from t_b_issue tbi
+		left join t_b_issue_items tbii on tbi.id=tbii.issueid
+		left join t_item tit on tbii.itemid=tit.id
+		left join t_manu tm on tit.manuid=tm.id
+		left join t_warehouse twh on tbi.houseid=twh.id
+		left join t_purchase tpu on tbii.purchaseid=tpu.id
+		where 1=1
+	  	<include refid="listWhere"></include>
+		order by tbi.modify_time asc,twh.name asc,tpu.name asc,tit.name asc, tit.model asc,tm.name asc
+	</select>
+
+
+	<select id="queryTp3List" parameterType="map" resultType="map">
+		select 
+		    tfr.id,tfr.deptname,tfr.entername,tfr.f_dj,tfr.f_dw,tfr.f_je,
+			DATE_FORMAT(tfr.modify_time,'%Y-%m-%d') modify_time,tfr.modify_user,
+			twh.name housename
+		from t_freight tfr
+		left join t_warehouse twh on tfr.houseid=twh.id
+		where 1=1
+	  	<include refid="listWhere"></include>		
+		order by tfr.modify_time asc,twh.name asc,tfr.entername asc,tfr.deptname asc
+	</select>
+</mapper>

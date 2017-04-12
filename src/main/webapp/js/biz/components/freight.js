@@ -18,6 +18,8 @@ Vue.component('comp-freight', {
 			},
 			Freight:{
 				id:'',
+				houseid:'',
+				housename:'',
 				entername:'',
 				deptname:'',
 				modify_time:'',
@@ -61,6 +63,8 @@ Vue.component('comp-freight', {
 		clear:function(){
 			this.Freight = {
 					id:'',
+					houseid:'',
+					housename:'',
 					entername:'',
 					deptname:'',
 					modify_time:'',
@@ -157,6 +161,7 @@ Vue.component('comp-freight', {
 			}
 			var data = {
 				id:_this.Freight.id,
+				houseid:_this.Freight.houseid,
 				entername:_this.Freight.entername,
 				deptname:_this.Freight.deptname,
 				modify_time:_this.Freight.modify_time,
@@ -175,6 +180,40 @@ Vue.component('comp-freight', {
 				},
 				error:function(res){
 					_this.Freight.errorMsg = res;
+				}
+			});
+		},
+		showWareHouse:function(){
+			var _this = this;
+			//warehouse-modal
+			var _this = this;
+			var setting = {
+				check: {
+					enable: false
+				},
+				data: {  
+	                simpleData: {  
+	                    enable: true,
+	                    idKey: "id",
+	        			pIdKey: "pid"
+	                }
+	            },
+	            callback: {
+	            	beforeClick: function zTreeOnClick(treeId, treeNode) {
+	            		if(treeNode.ttype == '0'){
+	            			_this.Freight.houseid=treeNode.sid;
+	            			_this.Freight.housename=treeNode.name;
+	            			$('#warehouse-modal').modal('hide');
+	            		}
+					}
+				}
+			};
+			this.$parent.post({
+				url : 'Warehouse/getTreeData.do',
+				success:function(res){
+					var zNodes = res;
+					$('#warehouse-modal').modal('show');
+					$.fn.zTree.init($("#treeDataPanel"), setting, zNodes).expandAll(true);
 				}
 			});
 		}
@@ -219,6 +258,7 @@ Vue.component('comp-freight', {
 				<table class="table table-bordered">\
 					<tbody>\
 						<tr>\
+							<th class="text-center">仓库</th>\
 							<th class="text-center">承运单位</th>\
 							<th class="text-center">部门</th>\
 							<th class="text-center">日期</th>\
@@ -229,6 +269,7 @@ Vue.component('comp-freight', {
 							<th class="text-center">操作</th>\
 						</tr>\
 						<tr v-for="item in search.datas">\
+							<td class="text-left">{{item.housename}}</td>\
 							<td class="text-left">{{item.entername}}</td>\
 							<td class="text-left">{{item.deptname}}</td>\
 							<td class="text-left">{{item.modify_time}}</td>\
@@ -257,25 +298,29 @@ Vue.component('comp-freight', {
 			        <h4 class="modal-title">运费详情</h4>\
 			      </div>\
 			      <div class="modal-body" style="min-height:300px;">\
+						<div class="form-group col-md-6">\
+							<label>仓库</label>\
+							<input class="form-control" placeholder="仓库" v-model="Freight.housename" v-on:click="showWareHouse" readonly="readonly"/>\
+						</div>\
+						<div class="form-group col-md-6">\
+							<label>日期</label>\
+							<div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="Freight_modify_time" data-link-format="yyyy-mm-dd">\
+								<input class="form-control" size="16" type="text" value="" v-model="Freight.modify_time" readonly>\
+								<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>\
+								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>\
+							</div>\
+						</div>\
 		      			<div class="form-group col-md-6">\
 		      				<label>承运单位</label>\
 							<input class="form-control" placeholder="承运单位" v-model="Freight.entername"/>\
 						</div>\
 						<div class="form-group col-md-6">\
+							<label>部门</label>\
+							<input class="form-control" placeholder="部门" v-model="Freight.deptname"/>\
+						</div>\
+						<div class="form-group col-md-6">\
 							<label>销售单位</label>\
 							<input class="form-control" placeholder="销售单位" v-model="Freight.modify_user"/>\
-						</div>\
-						<div class="form-group col-md-6">\
-							<label>部门</label>\
-						    <input class="form-control" placeholder="部门" v-model="Freight.deptname"/>\
-						</div>\
-						<div class="form-group col-md-6">\
-							<label>日期</label>\
-							<div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="Freight_modify_time" data-link-format="yyyy-mm-dd">\
-						        <input class="form-control" size="16" type="text" value="" v-model="Freight.modify_time" readonly>\
-						        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>\
-								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>\
-						    </div>\
 						</div>\
 						<div class="form-group col-md-6">\
 				     		<label>吨位</label>\
@@ -299,6 +344,32 @@ Vue.component('comp-freight', {
 			    </div>\
 			  </div>\
 			</form>\
+			</div>\
+			\
+			\
+		  <div aria-hidden="true" id="warehouse-modal" class="modal fade" tabIndex="-1" role="dialog">\
+				<div class="modal-dialog">\
+					<div class="modal-content">\
+						<div class="modal-header bg-primary">\
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>\
+							<h5 class="modal-title">\
+			                    <i class="icon-pencil"></i>\
+			                    <span style="font-weight:bold">选择仓库</span>\
+			                </h5>\
+						</div>\
+						<div class="modal-body">\
+							<div class="row">\
+								<div class="col-md-12">\
+			                       	<div id="treeDataPanel" class="ztree" style="overflow-y:scroll;min-height: 400px;max-height: 600px">\
+			            			</div>\
+								</div>\
+							</div>\
+						</div>\
+						<div class="modal-footer">\
+							<button type="button" class="btn default" data-dismiss="modal">关闭</button>\
+						</div>\
+					</div>\
+				</div>\
 			</div>\
 			\
 		</div>'

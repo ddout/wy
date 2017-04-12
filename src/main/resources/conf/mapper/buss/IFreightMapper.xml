@@ -24,14 +24,17 @@
 	<select id="queryItemsListCount" parameterType="map" resultType="int">
 		select count(1) 
 		from t_freight t1
+		left join t_Warehouse t2 on t1.houseid=t2.id
 		where 1=1
 		<include refid="listWhere"></include>
 	</select>
 	<select id="queryItemsList" parameterType="map" resultType="map">
 		select t1.id,
 			t1.entername, t1.deptname, DATE_FORMAT(t1.modify_time,'%Y-%m-%d') modify_time, 
-			t1.modify_user, t1.f_dw, t1.f_dj, t1.f_je
+			t1.modify_user, t1.f_dw, t1.f_dj, t1.f_je,t1.houseid,
+			t2.name housename
 		from t_freight t1
+		left join t_Warehouse t2 on t1.houseid=t2.id
 		where 1=1
 		<include refid="listWhere"></include>
 		order by t1.modify_time desc,t1.entername asc, t1.deptname asc
@@ -41,7 +44,7 @@
 	<insert id="add" parameterType="map" useGeneratedKeys="true"
 		keyProperty="id">
 		insert into t_freight
-		(entername,deptname,modify_time,modify_user,f_dw,f_dj,f_je)
+		(entername,deptname,modify_time,modify_user,f_dw,f_dj,f_je,houseid)
 		values
 		(
 		#{entername,jdbcType=VARCHAR},
@@ -50,7 +53,8 @@
 		#{modify_user,jdbcType=VARCHAR},
 		#{f_dw,jdbcType=NUMERIC},
 		#{f_dj,jdbcType=NUMERIC},
-		#{f_je,jdbcType=NUMERIC}
+		#{f_je,jdbcType=NUMERIC},
+		#{houseid,jdbcType=NUMERIC}
 		)
 	</insert>
 	
@@ -65,7 +69,8 @@
 			modify_user=#{modify_user,jdbcType=VARCHAR},
 			f_dw=#{f_dw,jdbcType=NUMERIC},
 			f_dj=#{f_dj,jdbcType=NUMERIC},
-			f_je=#{f_je,jdbcType=NUMERIC}
+			f_je=#{f_je,jdbcType=NUMERIC},
+			houseid=#{houseid,jdbcType=NUMERIC}
 		where id=#{id}
 	</update>
 	
@@ -73,8 +78,10 @@
 	<select id="getById" parameterType="map" resultType="map">
 		select t1.id,
 			t1.entername, t1.deptname, DATE_FORMAT(t1.modify_time,'%Y-%m-%d') modify_time, 
-			t1.modify_user, t1.f_dw, t1.f_dj, t1.f_je
+			t1.modify_user, t1.f_dw, t1.f_dj, t1.f_je,t1.houseid,
+			t2.name housename
 		from t_freight t1
+		left join t_Warehouse t2 on t1.houseid=t2.id
 		where t1.id=#{id}
 	</select>
 </mapper>

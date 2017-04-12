@@ -59,6 +59,19 @@ Vue.component('comp-nav', {
 				    </div>\
 				    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">\
 						<ul class="nav navbar-nav">\
+							<li class="dropdown">\
+								<a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系统设置 <span class="caret"></span></a>\
+								<ul class="dropdown-menu">\
+									<li><router-link to="/enter">单位管理</router-link></li>\
+									<li><router-link to="/warehouse">仓库管理</router-link></li>\
+									<li role="separator" class="divider"></li>\
+									<li><router-link to="/supplier">供应商</router-link></li>\
+									<li><router-link to="/purchase">购货单位</router-link></li>\
+									<li role="separator" class="divider"></li>\
+									<li><router-link to="/manu">物料生产厂家</router-link></li>\
+									<li><router-link to="/item">物料</router-link></li>\
+								</ul>\
+							</li>\
 							<li class="nomargin">\
 								<router-link to="/BussStorage">入库</router-link>\
 							</li>\
@@ -68,19 +81,9 @@ Vue.component('comp-nav', {
 							<li class="nomargin">\
 								<router-link to="/freight">运费</router-link>\
 							</li>\
-							<li class="dropdown">\
-					          <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系统设置 <span class="caret"></span></a>\
-					          <ul class="dropdown-menu">\
-					            <li><router-link to="/enter">单位管理</router-link></li>\
-					            <li><router-link to="/warehouse">仓库管理</router-link></li>\
-					            <li role="separator" class="divider"></li>\
-					            <li><router-link to="/supplier">供应商</router-link></li>\
-					            <li><router-link to="/purchase">购货单位</router-link></li>\
-								<li role="separator" class="divider"></li>\
-					            <li><router-link to="/manu">物料生产厂家</router-link></li>\
-					            <li><router-link to="/item">物料</router-link></li>\
-					          </ul>\
-					        </li>\
+							<li class="nomargin">\
+								<router-link to="/rpt1">明细统计</router-link>\
+							</li>\
 						</ul>\
 						<ul class="nav navbar-nav navbar-right">\
 					        <li>\
