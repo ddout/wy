@@ -65,6 +65,9 @@ Vue.component('comp-nav', {
 							<li class="nomargin">\
 								<router-link to="/BussIssue">出库</router-link>\
 							</li>\
+							<li class="nomargin">\
+								<router-link to="/freight">运费</router-link>\
+							</li>\
 							<li class="dropdown">\
 					          <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系统设置 <span class="caret"></span></a>\
 					          <ul class="dropdown-menu">\

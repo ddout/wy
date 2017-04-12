@@ -92,6 +92,14 @@ router = new VueRouter({
 		meta : {
 			libPath : 'components/BussIssueView'
 		}
+	}, {
+		// 运费
+		name : 'compFreight',
+		component : 'comp-freight',
+		path : '/freight',
+		meta : {
+			libPath : 'components/freight'
+		}
 	} ]
 });
 //

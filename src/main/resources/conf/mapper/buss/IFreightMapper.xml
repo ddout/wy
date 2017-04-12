@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ddout.fb.dao.buss.IFreightMapper">
+
+	<sql id="listWhere">
+		<if test="entername != null and entername != ''">
+			and t1.entername like CONCAT('%',#{entername},'%')
+		</if>
+		<if test="deptname != null and deptname != ''">
+			and t1.deptname like CONCAT('%',#{deptname},'%')
+		</if>
+		<if test="modify_user != null and modify_user != ''">
+			and t1.modify_user like CONCAT('%',#{modify_user},'%')
+		</if>
+		<!--  -->
+		<if test="begin_time != null and begin_time != ''">
+			and t1.modify_time &gt;= STR_TO_DATE(#{begin_time},'%Y-%m-%d')
+		</if>
+		<if test="end_time != null and end_time != ''">
+			and t1.modify_time &lt;= STR_TO_DATE(#{end_time},'%Y-%m-%d')
+		</if>
+	</sql>
+
+	<select id="queryItemsListCount" parameterType="map" resultType="int">
+		select count(1) 
+		from t_freight t1
+		where 1=1
+		<include refid="listWhere"></include>
+	</select>
+	<select id="queryItemsList" parameterType="map" resultType="map">
+		select t1.id,
+			t1.entername, t1.deptname, DATE_FORMAT(t1.modify_time,'%Y-%m-%d') modify_time, 
+			t1.modify_user, t1.f_dw, t1.f_dj, t1.f_je
+		from t_freight t1
+		where 1=1
+		<include refid="listWhere"></include>
+		order by t1.modify_time desc,t1.entername asc, t1.deptname asc
+		limit #{start},#{end}
+	</select>
+
+	<insert id="add" parameterType="map" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into t_freight
+		(entername,deptname,modify_time,modify_user,f_dw,f_dj,f_je)
+		values
+		(
+		#{entername,jdbcType=VARCHAR},
+		#{deptname,jdbcType=VARCHAR},
+		STR_TO_DATE(#{modify_time,jdbcType=VARCHAR},'%Y-%m-%d'),
+		#{modify_user,jdbcType=VARCHAR},
+		#{f_dw,jdbcType=NUMERIC},
+		#{f_dj,jdbcType=NUMERIC},
+		#{f_je,jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<delete id="del" parameterType="map">
+		delete from t_freight where id=#{id}
+	</delete>
+	<update id="update">
+		update t_freight
+		set entername=#{entername,jdbcType=VARCHAR},
+			deptname=#{deptname,jdbcType=VARCHAR},
+			modify_time=STR_TO_DATE(#{modify_time,jdbcType=VARCHAR},'%Y-%m-%d'),
+			modify_user=#{modify_user,jdbcType=VARCHAR},
+			f_dw=#{f_dw,jdbcType=NUMERIC},
+			f_dj=#{f_dj,jdbcType=NUMERIC},
+			f_je=#{f_je,jdbcType=NUMERIC}
+		where id=#{id}
+	</update>
+	
+	
+	<select id="getById" parameterType="map" resultType="map">
+		select t1.id,
+			t1.entername, t1.deptname, DATE_FORMAT(t1.modify_time,'%Y-%m-%d') modify_time, 
+			t1.modify_user, t1.f_dw, t1.f_dj, t1.f_je
+		from t_freight t1
+		where t1.id=#{id}
+	</select>
+</mapper>
