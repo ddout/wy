@@ -26,7 +26,7 @@
 			
 			<ul class="nav nav-pills"  role="tablist" id="myTabs">
 				<li role="presentation" class="active"><a href="#tp1" id="tp1-tab" role="tab" data-toggle="tab" aria-controls="tp1" aria-expanded="true">1.数据库初始化</a></li>
-			  	<li role="presentation" class=""><a href="#tp3" role="tab" id="tp3-tab" data-toggle="tab" aria-controls="tp3" aria-expanded="false">2.重启应用</a></li>
+			  	<li role="presentation" class=""><a href="#tp3" role="tab" id="tp3-tab" data-toggle="tab" aria-controls="tp3" aria-expanded="false">2.应用访问</a></li>
 			</ul>
 			<div class="tab-content main-panel">
 				<div role="tabpanel" class="tab-pane fade active in" id="tp1" aria-labelledby="tp1-tab">
@@ -39,10 +39,10 @@
 					<button class="btn btn-danger" v-on:click="showPwd">开始创建</button>
 				</div>
 				<div role="tabpanel" class="tab-pane fade in" id="tp3" aria-labelledby="tp3-tab">
-					<h3>重启应用</h3>
+					<h3>应用访问</h3>
 					<ul>
-						<li><h4>重启启动应用</h4></li>
 						<li><h4>访问首页 <a href="http://localhost:8080/wy/" target="_black">http://localhost:8080/wy/</a></h4></li>
+						<li><h4>请勿重复初始化,初始化会将数据库数据清除</h4></li>
 						<li><h4>完成</h4></li>
 					</ul>
 				</div>
@@ -111,7 +111,7 @@
 						success:function(res){
 							console.log(res)
 							if(res['result'] == 'SUCCESS' && res['rows'] == true){
-								$('div.progress-bar').css({width:'80%'}).html('80%');
+								$('div.progress-bar').css({width:'100%'}).html('100%');
 								$('#myTabs a[href="#tp3"]').tab('show');
 								$('#myTabs a[href="#tp1"]').remove();
 							} else{
